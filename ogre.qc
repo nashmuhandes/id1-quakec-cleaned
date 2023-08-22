@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -65,9 +66,6 @@ $frame bdeath7 bdeath8 bdeath9 bdeath10
 
 $frame pull1 pull2 pull3 pull4 pull5 pull6 pull7 pull8 pull9 pull10 pull11
 
-//=============================================================================
-
-
 void() OgreGrenadeExplode =
 {
 	T_RadiusDamage(self, self.owner, 40, world);
@@ -88,23 +86,29 @@ void() OgreGrenadeExplode =
 
 void() OgreGrenadeTouch =
 {
+	// don't explode on owner
 	if (other == self.owner)
-		return; // don't explode on owner
+		return;
+
 	if (other.takedamage == DAMAGE_AIM)
 	{
 		OgreGrenadeExplode();
 		return;
 	}
-	sound(self, CHAN_VOICE, "weapons/bounce.wav", 1, ATTN_NORM); // bounce sound
+	// bounce sound
+	sound(self, CHAN_VOICE, "weapons/bounce.wav", 1, ATTN_NORM);
 	if (self.velocity == '0 0 0')
 		self.avelocity = '0 0 0';
 };
 
 /*
-================
+==============================================================================
+
 OgreFireGrenade
-================
+
+==============================================================================
 */
+
 void() OgreFireGrenade =
 {
 	entity missile;
@@ -118,10 +122,8 @@ void() OgreFireGrenade =
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 
-// set missile speed
-
+	// set missile speed
 	makevectors(self.angles);
-
 	missile.velocity = normalize(self.enemy.origin - self.origin);
 	missile.velocity = missile.velocity * 600;
 	missile.velocity_z = 200;
@@ -132,7 +134,7 @@ void() OgreFireGrenade =
 
 	missile.touch = OgreGrenadeTouch;
 
-// set missile duration
+	// set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = OgreGrenadeExplode;
 
@@ -141,16 +143,14 @@ void() OgreFireGrenade =
 	setorigin(missile, self.origin);
 };
 
-
-//=============================================================================
-
 /*
-================
+==============================================================================
+
 chainsaw
 
-FIXME
-================
+==============================================================================
 */
+
 void(float side) chainsaw =
 {
 	vector delta;
@@ -175,9 +175,9 @@ void(float side) chainsaw =
 	{
 		makevectors(self.angles);
 		if (side == 1)
-			SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
+			SpawnMeatSpray(self.origin + v_forward * 16, crandom() * 100 * v_right);
 		else
-			SpawnMeatSpray(self.origin + v_forward*16, side * v_right);
+			SpawnMeatSpray(self.origin + v_forward * 16, side * v_right);
 	}
 };
 
@@ -250,37 +250,37 @@ void() ogre_swing5 = [ $swing5, ogre_swing6 ]
 {
 	ai_charge(9);
 	chainsaw(0);
-	self.angles_y = self.angles_y + random()*25;
+	self.angles_y = self.angles_y + random() * 25;
 };
 void() ogre_swing6 = [ $swing6, ogre_swing7 ]
 {
 	chainsaw(200);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing7 = [ $swing7, ogre_swing8 ]
 {
 	chainsaw(0);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing8 = [ $swing8, ogre_swing9 ]
 {
 	chainsaw(0);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing9 = [ $swing9, ogre_swing10 ]
 {
 	chainsaw(0);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing10 = [ $swing10, ogre_swing11 ]
 {
 	chainsaw(-200);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing11 = [ $swing11, ogre_swing12 ]
 {
 	chainsaw(0);
-	self.angles_y = self.angles_y + random()* 25;
+	self.angles_y = self.angles_y + random() *  25;
 };
 void() ogre_swing12 = [ $swing12, ogre_swing13 ] { ai_charge(3); };
 void() ogre_swing13 = [ $swing13, ogre_swing14 ] { ai_charge(8); };
@@ -304,8 +304,9 @@ void() ogre_smash11 = [ $smash11, ogre_smash12 ]
 {
 	ai_charge(2);
 	chainsaw(0);
+
 	// slight variation
-	self.nextthink = self.nextthink + random()*0.2;
+	self.nextthink = self.nextthink + random() * 0.2;
 };
 void() ogre_smash12 = [ $smash12, ogre_smash13 ] { ai_charge(0); };
 void() ogre_smash13 = [ $smash13, ogre_smash14 ] { ai_charge(4); };
@@ -325,11 +326,9 @@ void() ogre_pain3 = [ $pain3, ogre_pain4 ] {};
 void() ogre_pain4 = [ $pain4, ogre_pain5 ] {};
 void() ogre_pain5 = [ $pain5, ogre_run1 ] {};
 
-
 void() ogre_painb1 = [ $painb1, ogre_painb2 ] {};
 void() ogre_painb2 = [ $painb2, ogre_painb3 ] {};
 void() ogre_painb3 = [ $painb3, ogre_run1 ] {};
-
 
 void() ogre_painc1 = [ $painc1, ogre_painc2 ] {};
 void() ogre_painc2 = [ $painc2, ogre_painc3 ] {};
@@ -337,7 +336,6 @@ void() ogre_painc3 = [ $painc3, ogre_painc4 ] {};
 void() ogre_painc4 = [ $painc4, ogre_painc5 ] {};
 void() ogre_painc5 = [ $painc5, ogre_painc6 ] {};
 void() ogre_painc6 = [ $painc6, ogre_run1 ] {};
-
 
 void() ogre_paind1 = [ $paind1, ogre_paind2 ] {};
 void() ogre_paind2 = [ $paind2, ogre_paind3 ] { ai_pain(10); };
@@ -372,12 +370,11 @@ void() ogre_paine13 = [ $paine13, ogre_paine14 ] {};
 void() ogre_paine14 = [ $paine14, ogre_paine15 ] {};
 void() ogre_paine15 = [ $paine15, ogre_run1 ] {};
 
-
 void(entity attacker, float damage) ogre_pain =
 {
 	float r;
 
-// don't make multiple pain sounds right after each other
+	// don't make multiple pain sounds right after each other
 	if (self.pain_finished > time)
 		return;
 
@@ -477,9 +474,7 @@ void() ogre_melee =
 		ogre_swing1();
 };
 
-
 /*QUAKED monster_ogre (1 0 0) (-32 -32 -24) (32 32 64) Ambush
-
 */
 void() monster_ogre =
 {
@@ -523,5 +518,3 @@ void() monster_ogre_marksman =
 {
 	monster_ogre();
 };
-
-

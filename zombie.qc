@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -23,6 +24,7 @@ ZOMBIE
 
 ==============================================================================
 */
+
 $cd /raid/quake/id1/models/zombie
 
 $origin 0 0 24
@@ -70,8 +72,6 @@ $frame cruc_1 cruc_2 cruc_3 cruc_4 cruc_5 cruc_6
 
 float SPAWN_CRUCIFIED = 1;
 
-//=============================================================================
-
 .float inpain;
 
 void() zombie_stand1 = [ $stand1, zombie_stand2 ] { ai_stand(); };
@@ -95,11 +95,11 @@ void() zombie_cruc1 = [ $cruc_1, zombie_cruc2 ]
 	if (random() < 0.1)
 		sound(self, CHAN_VOICE, "zombie/idle_w2.wav", 1, ATTN_STATIC);
 };
-void() zombie_cruc2 = [ $cruc_2, zombie_cruc3 ] { self.nextthink = time + 0.1 + random()*0.1; };
-void() zombie_cruc3 = [ $cruc_3, zombie_cruc4 ] { self.nextthink = time + 0.1 + random()*0.1; };
-void() zombie_cruc4 = [ $cruc_4, zombie_cruc5 ] { self.nextthink = time + 0.1 + random()*0.1; };
-void() zombie_cruc5 = [ $cruc_5, zombie_cruc6 ] { self.nextthink = time + 0.1 + random()*0.1; };
-void() zombie_cruc6 = [ $cruc_6, zombie_cruc1 ] { self.nextthink = time + 0.1 + random()*0.1; };
+void() zombie_cruc2 = [ $cruc_2, zombie_cruc3 ] { self.nextthink = time + 0.1 + random() * 0.1; };
+void() zombie_cruc3 = [ $cruc_3, zombie_cruc4 ] { self.nextthink = time + 0.1 + random() * 0.1; };
+void() zombie_cruc4 = [ $cruc_4, zombie_cruc5 ] { self.nextthink = time + 0.1 + random() * 0.1; };
+void() zombie_cruc5 = [ $cruc_5, zombie_cruc6 ] { self.nextthink = time + 0.1 + random() * 0.1; };
+void() zombie_cruc6 = [ $cruc_6, zombie_cruc1 ] { self.nextthink = time + 0.1 + random() * 0.1; };
 
 void() zombie_walk1 = [ $walk1, zombie_walk2 ] { ai_walk(0); };
 void() zombie_walk2 = [ $walk2, zombie_walk3 ] { ai_walk(2); };
@@ -153,35 +153,41 @@ void() zombie_run18 = [ $run18, zombie_run1 ]
 };
 
 /*
-=============================================================================
+==============================================================================
 
 ATTACKS
 
-=============================================================================
+==============================================================================
 */
 
 void() ZombieGrenadeTouch =
 {
+	// don't explode on owner
 	if (other == self.owner)
-		return; // don't explode on owner
+		return;
+
 	if (other.takedamage)
 	{
-		T_Damage(other, self, self.owner, 10 );
+		T_Damage(other, self, self.owner, 10);
 		sound(self, CHAN_WEAPON, "zombie/z_hit.wav", 1, ATTN_NORM);
 		remove(self);
 		return;
 	}
-	sound(self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM); // bounce sound
+	// bounce sound
+	sound(self, CHAN_WEAPON, "zombie/z_miss.wav", 1, ATTN_NORM);
 	self.velocity = '0 0 0';
 	self.avelocity = '0 0 0';
 	self.touch = SUB_Remove;
 };
 
 /*
-================
+==============================================================================
+
 ZombieFireGrenade
-================
+
+==============================================================================
 */
+
 void(vector st) ZombieFireGrenade =
 {
 	entity missile;
@@ -194,13 +200,11 @@ void(vector st) ZombieFireGrenade =
 	missile.movetype = MOVETYPE_BOUNCE;
 	missile.solid = SOLID_BBOX;
 
-// calc org
+	// calc org
 	org = self.origin + st_x * v_forward + st_y * v_right + (st_z - 24) * v_up;
 
-// set missile speed
-
+	// set missile speed
 	makevectors(self.angles);
-
 	missile.velocity = normalize(self.enemy.origin - org);
 	missile.velocity = missile.velocity * 600;
 	missile.velocity_z = 200;
@@ -209,7 +213,7 @@ void(vector st) ZombieFireGrenade =
 
 	missile.touch = ZombieGrenadeTouch;
 
-// set missile duration
+	// set missile duration
 	missile.nextthink = time + 2.5;
 	missile.think = SUB_Remove;
 
@@ -277,11 +281,11 @@ void() zombie_missile =
 
 
 /*
-=============================================================================
+==============================================================================
 
 PAIN
 
-=============================================================================
+==============================================================================
 */
 
 void() zombie_paina1 = [ $paina1, zombie_paina2 ] { sound(self, CHAN_VOICE, "zombie/z_pain.wav", 1, ATTN_NORM); };
@@ -424,37 +428,42 @@ void() zombie_die =
 };
 
 /*
-=================
+===============================================================================
+
 zombie_pain
 
 Zombies can only be killed(gibbed) by doing 60 hit points of damage
 in a single frame(rockets, grenades, quad shotgun, quad nailgun).
 
-A hit of 25 points or more(super shotgun, quad nailgun) will allways put it
+A hit of 25 points or more(super shotgun, quad nailgun) will always put it
 down to the ground.
 
 A hit of from 10 to 40 points in one frame will cause it to go down if it
 has been twice in two seconds, otherwise it goes into one of the four
 fast pain frames.
 
-A hit of less than 10 points of damage(winged by a shotgun) will be ignored.
+A hit of less than 10 points of damage (winged by a shotgun) will be ignored.
 
 FIXME: don't use pain_finished because of nightmare hack
-=================
+===============================================================================
 */
+
 void(entity attacker, float take) zombie_pain =
 {
 	float r;
 
-	self.health = 60; // allways reset health
+	// always reset health
+	self.health = 60;
 
+	// totally ignore
 	if (take < 9)
-		return; // totally ignore
+		return;
 
+	// down on ground, so don't reset any counters
 	if (self.inpain == 2)
-		return; // down on ground, so don't reset any counters
+		return;
 
-// go down immediately if a big enough hit
+	// go down immediately if a big enough hit
 	if (take >= 25)
 	{
 		self.inpain = 2;
@@ -464,20 +473,22 @@ void(entity attacker, float take) zombie_pain =
 
 	if (self.inpain)
 	{
-// if hit again in next gre seconds while not in pain frames, definately drop
+		// if hit again in next 3 seconds while not in pain frames, definately drop
 		self.pain_finished = time + 3;
-		return; // currently going through an animation, don't change
+
+		// currently going through an animation, don't change
+		return;
 	}
 
 	if (self.pain_finished > time)
 	{
-// hit again, so drop down
+		// hit again, so drop down
 		self.inpain = 2;
 		zombie_paine1();
 		return;
 	}
 
-// gp into one of the fast pain animations
+	// go into one of the fast pain animations
 	self.inpain = 1;
 
 	r = random();
@@ -491,10 +502,7 @@ void(entity attacker, float take) zombie_pain =
 		zombie_paind1();
 };
 
-//============================================================================
-
 /*QUAKED monster_zombie (1 0 0) (-16 -16 -24) (16 16 32) Crucified ambush
-
 If crucified, stick the bounding box 12 pixels back into a wall to look right.
 */
 void() monster_zombie =

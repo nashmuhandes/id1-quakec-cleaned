@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -46,8 +47,6 @@ $frame death1 death2 death3 death4 death5 death6 death7 death8 death9
 
 $frame attacka1 attacka2 attacka3 attacka4 attacka5 attacka6 attacka7 attacka8
 $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
-
-//============================================================================
 
 void() Demon_JumpTouch;
 
@@ -112,13 +111,11 @@ void() demon1_jump8 = [ $leap8, demon1_jump9 ] {};
 void() demon1_jump9 = [ $leap9, demon1_jump10 ] {};
 void() demon1_jump10 = [ $leap10, demon1_jump1 ]
 {
-	self.nextthink = time + 3;
 	// if three seconds pass, assume demon is stuck and jump again
+	self.nextthink = time + 3;
 };
-
 void() demon1_jump11 = [ $leap11, demon1_jump12 ] {};
 void() demon1_jump12 = [ $leap12, demon1_run1 ] {};
-
 
 void() demon1_atta1 = [ $attacka1, demon1_atta2 ] { ai_charge(4); };
 void() demon1_atta2 = [ $attacka2, demon1_atta3 ] { ai_charge(0); };
@@ -142,7 +139,6 @@ void() demon1_pain3 = [ $pain3, demon1_pain4 ] {};
 void() demon1_pain4 = [ $pain4, demon1_pain5 ] {};
 void() demon1_pain5 = [ $pain5, demon1_pain6 ] {};
 void() demon1_pain6 = [ $pain6, demon1_run1 ] {};
-
 void(entity attacker, float damage) demon1_pain =
 {
 	if (self.touch == Demon_JumpTouch)
@@ -152,10 +148,11 @@ void(entity attacker, float damage) demon1_pain =
 		return;
 
 	self.pain_finished = time + 1;
-		sound(self, CHAN_VOICE, "demon/dpain1.wav", 1, ATTN_NORM);
+	sound(self, CHAN_VOICE, "demon/dpain1.wav", 1, ATTN_NORM);
 
-	if (random()*200 > damage)
-		return; // didn't flinch
+	// didn't flinch
+	if (random() * 200 > damage)
+		return;
 
 	demon1_pain1();
 };
@@ -172,7 +169,7 @@ void() demon1_die9 = [ $death9, demon1_die9 ] {};
 
 void() demon_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -80)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -183,19 +180,16 @@ void() demon_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	demon1_die1();
 };
-
 
 void() Demon_MeleeAttack =
 {
 	demon1_atta1();
 };
 
-
 /*QUAKED monster_demon1 (1 0 0) (-32 -32 -24) (32 32 64) Ambush
-
 */
 void() monster_demon1 =
 {
@@ -204,6 +198,7 @@ void() monster_demon1 =
 		remove(self);
 		return;
 	}
+
 	precache_model("progs/demon.mdl");
 	precache_model("progs/h_demon.mdl");
 
@@ -226,33 +221,30 @@ void() monster_demon1 =
 	self.th_walk = demon1_walk1;
 	self.th_run = demon1_run1;
 	self.th_die = demon_die;
-	self.th_melee = Demon_MeleeAttack; // one of two attacks
-	self.th_missile = demon1_jump1; // jump attack
+	// one of two attacks
+	self.th_melee = Demon_MeleeAttack;
+	// jump attack
+	self.th_missile = demon1_jump1;
 	self.th_pain = demon1_pain;
 
 	walkmonster_start();
 };
 
-
 /*
 ==============================================================================
 
-DEMON
-
-==============================================================================
-*/
-
-/*
-==============
 CheckDemonMelee
 
 Returns TRUE if a melee attack would hit right now
-==============
+
+==============================================================================
 */
+
 float() CheckDemonMelee =
 {
 	if (enemy_range == RANGE_MELEE)
-	{ // FIXME: check canreach
+	{
+		// FIXME: check canreach
 		self.attack_state = AS_MELEE;
 		return TRUE;
 	}
@@ -260,22 +252,22 @@ float() CheckDemonMelee =
 };
 
 /*
-==============
+==============================================================================
+
 CheckDemonJump
 
-==============
+==============================================================================
 */
+
 float() CheckDemonJump =
 {
 	vector dist;
 	float d;
 
-	if (self.origin_z + self.mins_z > self.enemy.origin_z + self.enemy.mins_z
-	+ 0.75 * self.enemy.size_z)
+	if (self.origin_z + self.mins_z > self.enemy.origin_z + self.enemy.mins_z + 0.75 * self.enemy.size_z)
 		return FALSE;
 
-	if (self.origin_z + self.maxs_z < self.enemy.origin_z + self.enemy.mins_z
-	+ 0.25 * self.enemy.size_z)
+	if (self.origin_z + self.maxs_z < self.enemy.origin_z + self.enemy.mins_z + 0.25 * self.enemy.size_z)
 		return FALSE;
 
 	dist = self.enemy.origin - self.origin;
@@ -314,16 +306,15 @@ float() DemonCheckAttack =
 	return FALSE;
 };
 
-
-//===========================================================================
-
 void(float side) Demon_Melee =
 {
 	float ldmg;
 	vector delta;
 
 	ai_face();
-	walkmove(self.ideal_yaw, 12); // allow a little closing
+
+	// allow a little closing
+	walkmove(self.ideal_yaw, 12);
 
 	delta = self.enemy.origin - self.origin;
 
@@ -333,13 +324,12 @@ void(float side) Demon_Melee =
 		return;
 
 	sound(self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
-	ldmg = 10 + 5*random();
+	ldmg = 10 + 5 * random();
 	T_Damage(self.enemy, self, self, ldmg);
 
 	makevectors(self.angles);
-	SpawnMeatSpray(self.origin + v_forward*16, side * v_right);
+	SpawnMeatSpray(self.origin + v_forward * 16, side * v_right);
 };
-
 
 void() Demon_JumpTouch =
 {
@@ -352,7 +342,7 @@ void() Demon_JumpTouch =
 	{
 		if (vlen(self.velocity) > 400)
 		{
-			ldmg = 40 + 10*random();
+			ldmg = 40 + 10 * random();
 			T_Damage(other, self, self, ldmg);
 		}
 	}
@@ -360,22 +350,24 @@ void() Demon_JumpTouch =
 	if (!checkbottom(self))
 	{
 		if (self.flags & FL_ONGROUND)
-		{ // jump randomly to not get hung up
-//dprint("popjump\n");
-	self.touch = SUB_Null;
-	self.think = demon1_jump1;
-	self.nextthink = time + 0.1;
+		{
+			// jump randomly to not get hung up
+			//dprint("popjump\n");
+			self.touch = SUB_Null;
+			self.think = demon1_jump1;
+			self.nextthink = time + 0.1;
 
-//			self.velocity_x = (random() - 0.5) * 600;
-//			self.velocity_y = (random() - 0.5) * 600;
-//			self.velocity_z = 200;
-//			self.flags = self.flags - FL_ONGROUND;
+			//self.velocity_x = (random() - 0.5) * 600;
+			//self.velocity_y = (random() - 0.5) * 600;
+			//self.velocity_z = 200;
+			//self.flags = self.flags - FL_ONGROUND;
 		}
-		return; // not on ground yet
+
+		// not on ground yet
+		return;
 	}
 
 	self.touch = SUB_Null;
 	self.think = demon1_jump11;
 	self.nextthink = time + 0.1;
 };
-

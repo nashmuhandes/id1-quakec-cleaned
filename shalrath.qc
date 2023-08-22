@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -23,6 +24,7 @@ SHAL-RATH
 
 ==============================================================================
 */
+
 $cd /raid/quake/id1/models/shalrath
 $origin 0 0 24
 $base base
@@ -41,6 +43,7 @@ $frame walk11 walk12
 
 void(entity attacker, float damage) shalrath_pain;
 void() ShalMissile;
+
 void() shal_stand = [ $walk1, shal_stand ] { ai_stand(); };
 
 void() shal_walk1 = [ $walk2, shal_walk2 ]
@@ -109,7 +112,6 @@ void() shal_death5 = [ $death5, shal_death6 ] {};
 void() shal_death6 = [ $death6, shal_death7 ] {};
 void() shal_death7 = [ $death7, shal_death7 ] {};
 
-
 void(entity attacker, float damage) shalrath_pain =
 {
 	if (self.pain_finished > time)
@@ -122,7 +124,7 @@ void(entity attacker, float damage) shalrath_pain =
 
 void() shalrath_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -90)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -140,10 +142,13 @@ void() shalrath_die =
 };
 
 /*
-================
+==============================================================================
+
 ShalMissile
-================
+
+==============================================================================
 */
+
 void() ShalMissileTouch;
 void() ShalHome;
 void() ShalMissile =
@@ -199,8 +204,9 @@ void() ShalHome =
 
 void() ShalMissileTouch =
 {
+	// don't explode on owner
 	if (other == self.owner)
-		return; // don't explode on owner
+		return;
 
 	if (other.classname == "monster_zombie")
 		T_Damage(other, self, self, 110);
@@ -220,8 +226,6 @@ void() ShalMissileTouch =
 	s_explode1();
 };
 
-//=================================================================
-
 /*QUAKED monster_shalrath (1 0 0) (-32 -32 -24) (32 32 48) Ambush
 */
 void() monster_shalrath =
@@ -231,16 +235,16 @@ void() monster_shalrath =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/shalrath.mdl");
-	precache_model2 ("progs/h_shal.mdl");
-	precache_model2 ("progs/v_spike.mdl");
+	precache_model2("progs/shalrath.mdl");
+	precache_model2("progs/h_shal.mdl");
+	precache_model2("progs/v_spike.mdl");
 
-	precache_sound2 ("shalrath/attack.wav");
-	precache_sound2 ("shalrath/attack2.wav");
-	precache_sound2 ("shalrath/death.wav");
-	precache_sound2 ("shalrath/idle.wav");
-	precache_sound2 ("shalrath/pain.wav");
-	precache_sound2 ("shalrath/sight.wav");
+	precache_sound2("shalrath/attack.wav");
+	precache_sound2("shalrath/attack2.wav");
+	precache_sound2("shalrath/death.wav");
+	precache_sound2("shalrath/idle.wav");
+	precache_sound2("shalrath/pain.wav");
+	precache_sound2("shalrath/sight.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -257,6 +261,6 @@ void() monster_shalrath =
 	self.th_missile = shal_attack1;
 
 	self.think = walkmonster_start;
-	self.nextthink = time + 0.1 + random()*0.1;
+	self.nextthink = time + 0.1 + random() * 0.1;
 
 };

@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -23,6 +24,7 @@ OLD ONE
 
 ==============================================================================
 */
+
 $cd /raid/quake/id1/models/old_one
 $origin 0 0 24
 $base base
@@ -33,7 +35,6 @@ void() finale_1;
 void() finale_2;
 void() finale_3;
 void() finale_4;
-
 
 entity shub;
 
@@ -96,7 +97,6 @@ void() old_idle44 = [ $old44, old_idle45 ] {};
 void() old_idle45 = [ $old45, old_idle46 ] {};
 void() old_idle46 = [ $old46, old_idle1 ] {};
 
-
 void() old_thrash1 = [ $shake1,  old_thrash2 ] { lightstyle(0, "m"); };
 void() old_thrash2 = [ $shake2,  old_thrash3 ] { lightstyle(0, "k"); };
 void() old_thrash3 = [ $shake3,  old_thrash4 ] { lightstyle(0, "k"); };
@@ -124,14 +124,13 @@ void() old_thrash18 = [ $shake18, old_thrash19 ] { lightstyle(0, "b"); };
 void() old_thrash19 = [ $shake19, old_thrash20 ] { lightstyle(0, "a"); };
 void() old_thrash20 = [ $shake20, old_thrash20 ] { finale_4(); };
 
-//============================================================================
-
 void() finale_1 =
 {
 	entity pos, pl;
 	entity timer;
 
-	intermission_exittime = time + 10000000; // never allow exit
+	// never allow exit
+	intermission_exittime = time + 10000000;
 	intermission_running = 1;
 
 	// find the intermission spot
@@ -151,7 +150,8 @@ void() finale_1 =
 	{
 		pl.view_ofs = '0 0 0';
 		pl.angles = other.v_angle = pos.mangle;
-		pl.fixangle = TRUE; // turn this way immediately
+		// turn this way immediately
+		pl.fixangle = TRUE;
 		pl.map = self.map;
 		pl.nextthink = time + 0.5;
 		pl.takedamage = DAMAGE_NO;
@@ -176,7 +176,6 @@ void() finale_2 =
 	vector o;
 
 	// start a teleport splash inside shub
-
 	o = shub.origin - '0 100 0';
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_TELEPORT);
@@ -240,7 +239,7 @@ void() finale_4 =
 	WriteByte(MSG_ALL, SVC_FINALE);
 	WriteString(MSG_ALL, "Congratulations and well done! You have\nbeaten the hideous Shub-Niggurath, and\nher hundreds of ugly changelings and\nmonsters. You have proven that your\nskill and your cunning are greater than\nall the powers of Quake. You are the\nmaster now. Id Software salutes you.");
 
-// put a player model down
+	// put a player model down
 	n = spawn();
 	setmodel(n, "progs/player.mdl");
 	oldo = oldo - '32 264 0';
@@ -250,15 +249,12 @@ void() finale_4 =
 
 	remove(self);
 
-// switch cd track
+	// switch cd track
 	WriteByte(MSG_ALL, SVC_CDTRACK);
 	WriteByte(MSG_ALL, 3);
 	WriteByte(MSG_ALL, 3);
 	lightstyle(0, "m");
 };
-
-//============================================================================
-
 
 /*QUAKED monster_oldone (1 0 0) (-16 -16 -24) (16 16 32)
 */
@@ -270,12 +266,12 @@ void() monster_oldone =
 		return;
 	}
 
-	precache_model2 ("progs/oldone.mdl");
+	precache_model2("progs/oldone.mdl");
 
-	precache_sound2 ("boss2/death.wav");
-	precache_sound2 ("boss2/idle.wav");
-	precache_sound2 ("boss2/sight.wav");
-	precache_sound2 ("boss2/pop2.wav");
+	precache_sound2("boss2/death.wav");
+	precache_sound2("boss2/idle.wav");
+	precache_sound2("boss2/sight.wav");
+	precache_sound2("boss2/pop2.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -283,7 +279,8 @@ void() monster_oldone =
 	setmodel(self, "progs/oldone.mdl");
 	setsize(self, '-160 -128 -24', '160 128 256');
 
-	self.health = 40000; // kill by telefrag
+	// kill by telefrag
+	self.health = 40000;
 	self.think = old_idle1;
 	self.nextthink = time + 0.1;
 	self.takedamage = DAMAGE_YES;
@@ -292,4 +289,3 @@ void() monster_oldone =
 
 	total_monsters = total_monsters + 1;
 };
-

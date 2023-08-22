@@ -17,7 +17,6 @@
     See file, 'COPYING', for details.
 */
 
-
 void() plat_center_touch;
 void() plat_outside_touch;
 void() plat_trigger_use;
@@ -31,9 +30,7 @@ void() plat_spawn_inside_trigger =
 	entity trigger;
 	vector tmin, tmax;
 
-//
-// middle trigger
-//
+	// middle trigger
 	trigger = spawn();
 	trigger.touch = plat_center_touch;
 	trigger.movetype = MOVETYPE_NONE;
@@ -99,8 +96,9 @@ void() plat_center_touch =
 	self = self.enemy;
 	if (self.state == STATE_BOTTOM)
 		plat_go_up();
+	// delay going down
 	else if (self.state == STATE_TOP)
-		self.nextthink = self.ltime + 1; // delay going down
+		self.nextthink = self.ltime + 1;
 };
 
 void() plat_outside_touch =
@@ -111,7 +109,7 @@ void() plat_outside_touch =
 	if (other.health <= 0)
 		return;
 
-//dprint("plat_outside_touch\n");
+	//dprint("plat_outside_touch\n");
 	self = self.enemy;
 	if (self.state == STATE_TOP)
 		plat_go_down();
@@ -119,15 +117,16 @@ void() plat_outside_touch =
 
 void() plat_trigger_use =
 {
+	// already activated
 	if (self.think)
-		return; // allready activated
+		return;
+
 	plat_go_down();
 };
 
-
 void() plat_crush =
 {
-//dprint("plat_crush\n");
+	//dprint("plat_crush\n");
 
 	T_Damage(other, self, self, 1);
 
@@ -147,7 +146,6 @@ void() plat_use =
 	plat_go_down();
 };
 
-
 /*QUAKED func_plat (0 .5 .8) ? PLAT_LOW_TRIGGER
 speed default 150
 
@@ -160,8 +158,6 @@ Set "sounds" to one of the following:
 1) base fast
 2) chain slow
 */
-
-
 void() func_plat =
 {
 	if (!self.t_length)
@@ -171,7 +167,8 @@ void() func_plat =
 
 	if (self.sounds == 0)
 		self.sounds = 2;
-// FIX THIS TO LOAD A GENERIC PLAT SOUND
+
+	// FIX THIS TO LOAD A GENERIC PLAT SOUND
 
 	if (self.sounds == 1)
 	{
@@ -189,7 +186,6 @@ void() func_plat =
 		self.noise1 = "plats/medplat2.wav";
 	}
 
-
 	self.mangle = self.angles;
 	self.angles = '0 0 0';
 
@@ -198,13 +194,13 @@ void() func_plat =
 	self.movetype = MOVETYPE_PUSH;
 	setorigin(self, self.origin);
 	setmodel(self, self.model);
-	setsize(self, self.mins , self.maxs);
+	setsize(self, self.mins, self.maxs);
 
 	self.blocked = plat_crush;
 	if (!self.speed)
 		self.speed = 150;
 
-// pos1 is the top position, pos2 is the bottom
+	// pos1 is the top position, pos2 is the bottom
 	self.pos1 = self.origin;
 	self.pos2 = self.origin;
 	if (self.height)
@@ -214,7 +210,8 @@ void() func_plat =
 
 	self.use = plat_trigger_use;
 
-	plat_spawn_inside_trigger(); // the "start moving" trigger
+	// the "start moving" trigger
+	plat_spawn_inside_trigger();
 
 	if (self.targetname)
 	{
@@ -228,8 +225,6 @@ void() func_plat =
 	}
 };
 
-//============================================================================
-
 void() train_next;
 void() func_train_find;
 
@@ -240,10 +235,12 @@ void() train_blocked =
 	self.attack_finished = time + 0.5;
 	T_Damage(other, self, self, self.dmg);
 };
+
 void() train_use =
 {
+	// already activated
 	if (self.think != func_train_find)
-		return; // already activated
+		return;
 	train_next();
 };
 
@@ -284,8 +281,10 @@ void() func_train_find =
 	targ = find(world, targetname, self.target);
 	self.target = targ.target;
 	setorigin(self, targ.origin - self.mins);
+
+	// not triggered, so start immediately
 	if (!self.targetname)
-	{ // not triggered, so start immediately
+	{
 		self.nextthink = self.ltime + 0.1;
 		self.think = train_next;
 	}
@@ -300,7 +299,6 @@ speed default 100
 dmg default 2
 sounds
 1) ratchet metal
-
 */
 void() func_train =
 {
@@ -335,11 +333,11 @@ void() func_train =
 	self.classname = "train";
 
 	setmodel(self, self.model);
-	setsize(self, self.mins , self.maxs);
+	setsize(self, self.mins, self.maxs);
 	setorigin(self, self.origin);
 
-// start trains on the second frame, to make sure their targets have had
-// a chance to spawn
+	// start trains on the second frame, to make sure their targets have had
+	// a chance to spawn
 	self.nextthink = self.ltime + 0.1;
 	self.think = func_train_find;
 };
@@ -366,13 +364,13 @@ void() misc_teleporttrain =
 	self.noise1 = ("misc/null.wav");
 	precache_sound("misc/null.wav");
 
-	precache_model2 ("progs/teleport.mdl");
+	precache_model2("progs/teleport.mdl");
 	setmodel(self, "progs/teleport.mdl");
-	setsize(self, self.mins , self.maxs);
+	setsize(self, self.mins, self.maxs);
 	setorigin(self, self.origin);
 
-// start trains on the second frame, to make sure their targets have had
-// a chance to spawn
+	// start trains on the second frame, to make sure their targets have had
+	// a chance to spawn
 	self.nextthink = self.ltime + 0.1;
 	self.think = func_train_find;
 };

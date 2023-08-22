@@ -16,10 +16,11 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
-KNIGHT
+HELLKNIGHT
 
 ==============================================================================
 */
@@ -84,36 +85,37 @@ void(float offset) hknight_shot =
 
 	makevectors(offang);
 
-	org = self.origin + self.mins + self.size*0.5 + v_forward * 20;
+	org = self.origin + self.mins + self.size * 0.5 + v_forward * 20;
 
-// set missile speed
+	// set missile speed
 	vec = normalize(v_forward);
-	vec_z = 0 - vec_z + (random() - 0.5)*0.1;
+	vec_z = 0 - vec_z + (random() - 0.5) * 0.1;
 
 	launch_spike(org, vec);
 	newmis.classname = "knightspike";
 	setmodel(newmis, "progs/k_spike.mdl");
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
-	newmis.velocity = vec*300;
+	newmis.velocity = vec * 300;
 	sound(self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 };
 
 void() CheckForCharge =
 {
-// check for mad charge
-if (!enemy_vis)
-	return;
-if (time < self.attack_finished)
-	return;
-if ( fabs(self.origin_z - self.enemy.origin_z) > 20)
-	return; // too much height change
-if ( vlen(self.origin - self.enemy.origin) < 80)
-	return; // use regular attack
+	// check for mad charge
+	if (!enemy_vis)
+		return;
+	if (time < self.attack_finished)
+		return;
+	// too much height change
+	if (fabs(self.origin_z - self.enemy.origin_z) > 20)
+		return;
+	// use regular attack
+	if (vlen(self.origin - self.enemy.origin) < 80)
+		return;
 
-// charge
+	// charge
 	SUB_AttackFinished(2);
 	hknight_char_a1();
-
 };
 
 void() CheckContinueCharge =
@@ -122,15 +124,15 @@ void() CheckContinueCharge =
 	{
 		SUB_AttackFinished(3);
 		hknight_run1();
-		return; // done charging
+
+		// done charging
+		return;
 	}
 	if (random() > 0.5)
 		sound(self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
 	else
 		sound(self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
 };
-
-//===========================================================================
 
 void() hknight_stand1 = [ $stand1, hknight_stand2 ] { ai_stand(); };
 void() hknight_stand2 = [ $stand2, hknight_stand3 ] { ai_stand(); };
@@ -141,8 +143,6 @@ void() hknight_stand6 = [ $stand6, hknight_stand7 ] { ai_stand(); };
 void() hknight_stand7 = [ $stand7, hknight_stand8 ] { ai_stand(); };
 void() hknight_stand8 = [ $stand8, hknight_stand9 ] { ai_stand(); };
 void() hknight_stand9 = [ $stand9, hknight_stand1 ] { ai_stand(); };
-
-//===========================================================================
 
 void() hknight_walk1 = [ $walk1, hknight_walk2 ]
 {
@@ -169,8 +169,6 @@ void() hknight_walk18 = [ $walk18, hknight_walk19 ] { ai_walk(3); };
 void() hknight_walk19 = [ $walk19, hknight_walk20 ] { ai_walk(3); };
 void() hknight_walk20 = [ $walk20, hknight_walk1 ] { ai_walk(2); };
 
-//===========================================================================
-
 void() hknight_run1 = [ $run1, hknight_run2 ]
 {
 	hk_idle_sound();
@@ -185,15 +183,11 @@ void() hknight_run6 = [ $run6, hknight_run7 ] { ai_run(25); };
 void() hknight_run7 = [ $run7, hknight_run8 ] { ai_run(21); };
 void() hknight_run8 = [ $run8, hknight_run1 ] { ai_run(13); };
 
-//============================================================================
-
 void() hknight_pain1 = [ $pain1, hknight_pain2 ] { sound(self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM); };
 void() hknight_pain2 = [ $pain2, hknight_pain3 ] {};
 void() hknight_pain3 = [ $pain3, hknight_pain4 ] {};
 void() hknight_pain4 = [ $pain4, hknight_pain5 ] {};
 void() hknight_pain5 = [ $pain5, hknight_run1 ] {};
-
-//============================================================================
 
 void() hknight_die1 = [ $death1, hknight_die2 ] { ai_forward(10); };
 void() hknight_die2 = [ $death2, hknight_die3 ] { ai_forward(8); };
@@ -211,7 +205,6 @@ void() hknight_die9 = [ $death9, hknight_die10 ] { ai_forward(11); };
 void() hknight_die10 = [ $death10, hknight_die11 ] {};
 void() hknight_die11 = [ $death11, hknight_die12 ] {};
 void() hknight_die12 = [ $death12, hknight_die12 ] {};
-
 void() hknight_dieb1 = [ $deathb1, hknight_dieb2 ] {};
 void() hknight_dieb2 = [ $deathb2, hknight_dieb3 ] {};
 void() hknight_dieb3 = [ $deathb3, hknight_dieb4 ] { self.solid = SOLID_NOT; };
@@ -224,7 +217,7 @@ void() hknight_dieb9 = [ $deathb9, hknight_dieb9 ] {};
 
 void() hknight_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -40)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -235,16 +228,13 @@ void() hknight_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	sound(self, CHAN_VOICE, "hknight/death1.wav", 1, ATTN_NORM);
 	if (random() > 0.5)
 		hknight_die1();
 	else
 		hknight_dieb1();
 };
-
-
-//============================================================================
 
 void() hknight_magica1 = [ $magica1, hknight_magica2 ] { ai_face(); };
 void() hknight_magica2 = [ $magica2, hknight_magica3 ] { ai_face(); };
@@ -261,8 +251,6 @@ void() hknight_magica12 = [ $magica12, hknight_magica13 ] { hknight_shot(3); };
 void() hknight_magica13 = [ $magica13, hknight_magica14 ] { ai_face(); };
 void() hknight_magica14 = [ $magica14, hknight_run1 ] { ai_face(); };
 
-//============================================================================
-
 void() hknight_magicb1 = [ $magicb1, hknight_magicb2 ] { ai_face(); };
 void() hknight_magicb2 = [ $magicb2, hknight_magicb3 ] { ai_face(); };
 void() hknight_magicb3 = [ $magicb3, hknight_magicb4 ] { ai_face(); };
@@ -277,8 +265,6 @@ void() hknight_magicb11 = [ $magicb11, hknight_magicb12 ] { hknight_shot(2); };
 void() hknight_magicb12 = [ $magicb12, hknight_magicb13 ] { hknight_shot(3); };
 void() hknight_magicb13 = [ $magicb13, hknight_run1 ] { ai_face(); };
 
-//============================================================================
-
 void() hknight_magicc1 = [ $magicc1, hknight_magicc2 ] { ai_face(); };
 void() hknight_magicc2 = [ $magicc2, hknight_magicc3 ] { ai_face(); };
 void() hknight_magicc3 = [ $magicc3, hknight_magicc4 ] { ai_face(); };
@@ -290,8 +276,6 @@ void() hknight_magicc8 = [ $magicc8, hknight_magicc9 ] { hknight_shot(0); };
 void() hknight_magicc9 = [ $magicc9, hknight_magicc10 ] { hknight_shot(1); };
 void() hknight_magicc10 = [ $magicc10, hknight_magicc11 ] { hknight_shot(2); };
 void() hknight_magicc11 = [ $magicc11, hknight_run1 ] { hknight_shot(3); };
-
-//===========================================================================
 
 void() hknight_char_a1 = [ $char_a1, hknight_char_a2 ] { ai_charge(20); };
 void() hknight_char_a2 = [ $char_a2, hknight_char_a3 ] { ai_charge(25); };
@@ -310,8 +294,6 @@ void() hknight_char_a14 = [ $char_a14, hknight_char_a15 ] { ai_charge(25); };
 void() hknight_char_a15 = [ $char_a15, hknight_char_a16 ] { ai_charge(21); };
 void() hknight_char_a16 = [ $char_a16, hknight_run1 ] { ai_charge(13); };
 
-//===========================================================================
-
 void() hknight_char_b1 = [ $char_b1, hknight_char_b2 ]
 {
 	CheckContinueCharge();
@@ -324,8 +306,6 @@ void() hknight_char_b4 = [ $char_b4, hknight_char_b5 ] { ai_charge(22); ai_melee
 void() hknight_char_b5 = [ $char_b5, hknight_char_b6 ] { ai_charge(18); ai_melee(); };
 void() hknight_char_b6 = [ $char_b6, hknight_char_b1 ] { ai_charge(8); ai_melee(); };
 
-//===========================================================================
-
 void() hknight_slice1 = [ $slice1, hknight_slice2 ] { ai_charge(9); };
 void() hknight_slice2 = [ $slice2, hknight_slice3 ] { ai_charge(6); };
 void() hknight_slice3 = [ $slice3, hknight_slice4 ] { ai_charge(13); };
@@ -336,8 +316,6 @@ void() hknight_slice7 = [ $slice7, hknight_slice8 ] { ai_charge(8); ai_melee(); 
 void() hknight_slice8 = [ $slice8, hknight_slice9 ] { ai_charge(2); ai_melee(); };
 void() hknight_slice9 = [ $slice9, hknight_slice10 ] { ai_melee(); };
 void() hknight_slice10 = [ $slice10, hknight_run1 ] { ai_charge(3); };
-
-//===========================================================================
 
 void() hknight_smash1 = [ $smash1, hknight_smash2 ] { ai_charge(1); };
 void() hknight_smash2 = [ $smash2, hknight_smash3 ] { ai_charge(13); };
@@ -350,8 +328,6 @@ void() hknight_smash8 = [ $smash8, hknight_smash9 ] { ai_charge(2); ai_melee(); 
 void() hknight_smash9 = [ $smash9, hknight_smash10 ] { ai_charge(3); ai_melee(); };
 void() hknight_smash10 = [ $smash10, hknight_smash11 ] { ai_charge(0); };
 void() hknight_smash11 = [ $smash11, hknight_run1 ] { ai_charge(0); };
-
-//============================================================================
 
 void() hknight_watk1 = [ $w_attack1, hknight_watk2 ] { ai_charge(2); };
 void() hknight_watk2 = [ $w_attack2, hknight_watk3 ] { ai_charge(0); };
@@ -376,8 +352,6 @@ void() hknight_watk20 = [ $w_attack20, hknight_watk21 ] { ai_charge(6); };
 void() hknight_watk21 = [ $w_attack21, hknight_watk22 ] { ai_charge(7); };
 void() hknight_watk22 = [ $w_attack22, hknight_run1 ] { ai_charge(3); };
 
-//============================================================================
-
 void() hk_idle_sound =
 {
 	if (random() < 0.2)
@@ -392,14 +366,16 @@ void(entity attacker, float damage) hknight_pain =
 	sound(self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM);
 
 	if (time - self.pain_finished > 5)
-	{ // allways go into pain frame if it has been a while
+	{
+		// always go into pain frame if it has been a while
 		hknight_pain1();
 		self.pain_finished = time + 1;
 		return;
 	}
 
-	if ((random()*30 > damage))
-		return; // didn't flinch
+	// didn't flinch
+	if ((random() * 30 > damage))
+		return;
 
 	self.pain_finished = time + 1;
 	hknight_pain1();
@@ -432,19 +408,21 @@ void() monster_hell_knight =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/hknight.mdl");
-	precache_model2 ("progs/k_spike.mdl");
-	precache_model2 ("progs/h_hellkn.mdl");
+	precache_model2("progs/hknight.mdl");
+	precache_model2("progs/k_spike.mdl");
+	precache_model2("progs/h_hellkn.mdl");
 
+	precache_sound2("hknight/attack1.wav");
+	precache_sound2("hknight/death1.wav");
+	precache_sound2("hknight/pain1.wav");
+	precache_sound2("hknight/sight1.wav");
 
-	precache_sound2 ("hknight/attack1.wav");
-	precache_sound2 ("hknight/death1.wav");
-	precache_sound2 ("hknight/pain1.wav");
-	precache_sound2 ("hknight/sight1.wav");
-	precache_sound("hknight/hit.wav"); // used by C code, so don't sound2
-	precache_sound2 ("hknight/slash1.wav");
-	precache_sound2 ("hknight/idle.wav");
-	precache_sound2 ("hknight/grunt.wav");
+	// used by C code, so don't sound2
+	precache_sound("hknight/hit.wav");
+
+	precache_sound2("hknight/slash1.wav");
+	precache_sound2("hknight/idle.wav");
+	precache_sound2("hknight/grunt.wav");
 
 	precache_sound("knight/sword1.wav");
 	precache_sound("knight/sword2.wav");

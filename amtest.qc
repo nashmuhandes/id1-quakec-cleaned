@@ -16,8 +16,6 @@
 
     See file, 'COPYING', for details.
 */
-/*~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>
-~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~*/
 
 void() test_teleport_touch;
 void() tele_done;
@@ -40,11 +38,11 @@ void() test_teleport_touch =
 {
 	entity oldself;
 	other.movetype = MOVETYPE_TOSS;
-//	other.solid = SOLID_NOT;
+	//other.solid = SOLID_NOT;
 	other.dest = '256 -128 -128';
 	oldself = self;
 	self = other;
-//	SUB_CalcMove(self.dest, 200, tele_done);
+	//SUB_CalcMove(self.dest, 200, tele_done);
 	self.velocity = '1000 0 0 ';
 	self = oldself;
 };
@@ -54,9 +52,6 @@ void() tele_done =
 	self.movetype = MOVETYPE_WALK;
 	self.solid = SOLID_SLIDEBOX;
 };
-
-/*~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>
-~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~<~>~*/
 
 void() test_goaway;
 void() test_spawn;
@@ -91,8 +86,8 @@ void() test_spawn =
 	body.nextthink = time + 5;
 	body.think = test_goaway;
 
-self.nextthink = time + 3;
-self.think = test_spawn;
+	self.nextthink = time + 3;
+	self.think = test_spawn;
 
 };
 
@@ -100,4 +95,3 @@ void() test_goaway =
 {
 	remove(self);
 };
-

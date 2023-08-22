@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -100,10 +101,6 @@ void() tbaby_run23 = [ $run23, tbaby_run24 ] { ai_run(2); };
 void() tbaby_run24 = [ $run24, tbaby_run25 ] { ai_run(2); };
 void() tbaby_run25 = [ $run25, tbaby_run1 ] { ai_run(2); };
 
-
-//============================================================================
-
-
 void() tbaby_jump1;
 
 void() Tar_JumpTouch =
@@ -114,7 +111,7 @@ void() Tar_JumpTouch =
 	{
 		if (vlen(self.velocity) > 400)
 		{
-			ldmg = 10 + 10*random();
+			ldmg = 10 + 10 * random();
 			T_Damage(other, self, self, ldmg);
 			sound(self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
 		}
@@ -126,19 +123,21 @@ void() Tar_JumpTouch =
 	if (!checkbottom(self))
 	{
 		if (self.flags & FL_ONGROUND)
-		{ // jump randomly to not get hung up
-//dprint("popjump\n");
-	self.touch = SUB_Null;
-	self.think = tbaby_run1;
-	self.movetype = MOVETYPE_STEP;
-	self.nextthink = time + 0.1;
+		{
+			//dprint("popjump\n");
+			self.touch = SUB_Null;
+			self.think = tbaby_run1;
+			self.movetype = MOVETYPE_STEP;
+			self.nextthink = time + 0.1;
 
-//			self.velocity_x = (random() - 0.5) * 600;
-//			self.velocity_y = (random() - 0.5) * 600;
-//			self.velocity_z = 200;
-//			self.flags = self.flags - FL_ONGROUND;
+			//self.velocity_x = (random() - 0.5) * 600;
+			//self.velocity_y = (random() - 0.5) * 600;
+			//self.velocity_z = 200;
+			//self.flags = self.flags - FL_ONGROUND;
 		}
-		return; // not on ground yet
+
+		// not on ground yet
+		return;
 	}
 
 	self.touch = SUB_Null;
@@ -172,16 +171,12 @@ void() tbaby_jump5 = [ $jump5, tbaby_jump6 ]
 	makevectors(self.angles);
 	self.origin_z = self.origin_z + 1;
 	self.velocity = v_forward * 600 + '0 0 200';
-	self.velocity_z = self.velocity_z + random()*150;
+	self.velocity_z = self.velocity_z + random() * 150;
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 	self.cnt = 0;
 };
 void() tbaby_jump6 = [ $jump6, tbaby_fly1 ] {};
-
-
-
-//=============================================================================
 
 void() tbaby_die1 = [ $exp, tbaby_die2 ] { self.takedamage = DAMAGE_NO; };
 void() tbaby_die2 = [ $exp, tbaby_run1 ]
@@ -189,7 +184,7 @@ void() tbaby_die2 = [ $exp, tbaby_run1 ]
 	T_RadiusDamage(self, self, 120, world);
 
 	sound(self, CHAN_VOICE, "blob/death1.wav", 1, ATTN_NORM);
-	self.origin = self.origin - 8*normalize(self.velocity);
+	self.origin = self.origin - 8 * normalize(self.velocity);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_TAREXPLOSION);
@@ -200,9 +195,6 @@ void() tbaby_die2 = [ $exp, tbaby_run1 ]
 	BecomeExplosion();
 };
 
-//=============================================================================
-
-
 /*QUAKED monster_tarbaby (1 0 0) (-16 -16 -24) (16 16 24) Ambush
 */
 void() monster_tarbaby =
@@ -212,12 +204,12 @@ void() monster_tarbaby =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/tarbaby.mdl");
+	precache_model2("progs/tarbaby.mdl");
 
-	precache_sound2 ("blob/death1.wav");
-	precache_sound2 ("blob/hit1.wav");
-	precache_sound2 ("blob/land1.wav");
-	precache_sound2 ("blob/sight1.wav");
+	precache_sound2("blob/death1.wav");
+	precache_sound2("blob/hit1.wav");
+	precache_sound2("blob/land1.wav");
+	precache_sound2("blob/sight1.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -236,4 +228,3 @@ void() monster_tarbaby =
 
 	walkmonster_start();
 };
-

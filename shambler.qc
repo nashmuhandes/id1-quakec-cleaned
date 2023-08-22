@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -135,8 +136,8 @@ void() sham_smash10 = [ $smash10, sham_smash11 ]
 	T_Damage(self.enemy, self, self, ldmg);
 	sound(self, CHAN_VOICE, "shambler/smack.wav", 1, ATTN_NORM);
 
-	SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
-	SpawnMeatSpray(self.origin + v_forward*16, crandom() * 100 * v_right);
+	SpawnMeatSpray(self.origin + v_forward * 16, crandom() * 100 * v_right);
+	SpawnMeatSpray(self.origin + v_forward * 16, crandom() * 100 * v_right);
 };
 void() sham_smash11 = [ $smash11, sham_smash12 ] { ai_charge(5); };
 void() sham_smash12 = [ $smash12, sham_run1    ] { ai_charge(4); };
@@ -164,7 +165,7 @@ void(float side) ShamClaw =
 	if (side)
 	{
 		makevectors(self.angles);
-		SpawnMeatSpray(self.origin + v_forward*16, side * v_right);
+		SpawnMeatSpray(self.origin + v_forward * 16, side * v_right);
 	}
 };
 
@@ -183,7 +184,7 @@ void() sham_swingl8 = [ $swingl8, sham_swingl9 ] { ai_charge(4); };
 void() sham_swingl9 = [ $swingl9, sham_run1  ]
 {
 	ai_charge(8);
-	if (random()<0.5)
+	if (random() < 0.5)
 		self.think = sham_swingr1;
 };
 
@@ -203,7 +204,7 @@ void() sham_swingr9 = [ $swingr9, sham_run1  ]
 {
 	ai_charge(1);
 	ai_charge(10);
-	if (random()<0.5)
+	if (random() < 0.5)
 		self.think = sham_swingl1;
 };
 
@@ -220,9 +221,6 @@ void() sham_melee =
 		sham_swingl1();
 };
 
-
-//============================================================================
-
 void() CastLightning =
 {
 	vector org, dir;
@@ -236,7 +234,7 @@ void() CastLightning =
 	dir = self.enemy.origin + '0 0 16' - org;
 	dir = normalize(dir);
 
-	traceline(org, self.origin + dir*600, TRUE, self);
+	traceline(org, self.origin + dir * 600, TRUE, self);
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_LIGHTNING1);
@@ -296,9 +294,7 @@ void() sham_magic11 = [ $magic11, sham_magic12 ]
 	if (skill == 3)
 		CastLightning();
 };
-void() sham_magic12 = [ $magic12, sham_run1    ] {};
-
-
+void() sham_magic12 = [ $magic12, sham_run1 ] {};
 
 void() sham_pain1 = [ $pain1, sham_pain2 ] {};
 void() sham_pain2 = [ $pain2, sham_pain3 ] {};
@@ -311,11 +307,13 @@ void(entity attacker, float damage) sham_pain =
 {
 	sound(self, CHAN_VOICE, "shambler/shurt2.wav", 1, ATTN_NORM);
 
+	// already dying, don't go into pain frame
 	if (self.health <= 0)
-		return; // allready dying, don't go into pain frame
+		return;
 
-	if (random()*400 > damage)
-		return; // didn't flinch
+	// didn't flinch
+	if (random() * 400 > damage)
+		return;
 
 	if (self.pain_finished > time)
 		return;
@@ -323,9 +321,6 @@ void(entity attacker, float damage) sham_pain =
 
 	sham_pain1();
 };
-
-
-//============================================================================
 
 void() sham_death1 = [ $death1, sham_death2 ] {};
 void() sham_death2 = [ $death2, sham_death3 ] {};
@@ -341,7 +336,7 @@ void() sham_death11 = [ $death11, sham_death11 ] {};
 
 void() sham_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -60)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -352,13 +347,10 @@ void() sham_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	sound(self, CHAN_VOICE, "shambler/sdeath.wav", 1, ATTN_NORM);
 	sham_death1();
 };
-
-//============================================================================
-
 
 /*QUAKED monster_shambler (1 0 0) (-32 -32 -24) (32 32 64) Ambush
 */

@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -45,23 +46,25 @@ $frame death1 death2 death3 death4 death5 death6 death7 death8
 /*
 ==============================================================================
 
-WIZARD
-
 If the player moves behind cover before the missile is launched, launch it
 at the last visible spot with no velocity leading, in hopes that the player
 will duck back out and catch it.
+
 ==============================================================================
 */
 
 /*
-=============
+==============================================================================
+
 LaunchMissile
 
 Sets the given entities velocity and angles so that it will hit self.enemy
 if self.enemy maintains it's current velocity
 0.1 is moderately accurate, 0.0 is totally accurate
-=============
+
+==============================================================================
 */
+
 void(entity missile, float mspeed, float accuracy) LaunchMissile =
 {
 	vector vec, move;
@@ -69,28 +72,28 @@ void(entity missile, float mspeed, float accuracy) LaunchMissile =
 
 	makevectors(self.angles);
 
-// set missile speed
+	// set missile speed
 	vec = self.enemy.origin + self.enemy.mins + self.enemy.size * 0.7 - missile.origin;
 
-// calc aproximate time for missile to reach vec
+	// calc aproximate time for missile to reach vec
 	fly = vlen(vec) / mspeed;
 
-// get the entities xy velocity
+	// get the entities xy velocity
 	move = self.enemy.velocity;
 	move_z = 0;
 
-// project the target forward in time
+	// project the target forward in time
 	vec = vec + move * fly;
 
 	vec = normalize(vec);
-	vec = vec + accuracy*v_up*(random()- 0.5) + accuracy*v_right*(random()- 0.5);
+	vec = vec + accuracy * v_up * (random() - 0.5) + accuracy * v_right * (random() - 0.5);
 
 	missile.velocity = vec * mspeed;
 
 	missile.angles = '0 0 0';
 	missile.angles_y = vectoyaw(missile.velocity);
 
-// set missile duration
+	// set missile duration
 	missile.nextthink = time + 5;
 	missile.think = SUB_Remove;
 };
@@ -100,10 +103,13 @@ void() wiz_run1;
 void() wiz_side1;
 
 /*
-=================
+===============================================================================
+
 WizardCheckAttack
-=================
+
+===============================================================================
 */
+
 float() WizardCheckAttack =
 {
 	vector spot1, spot2;
@@ -112,6 +118,7 @@ float() WizardCheckAttack =
 
 	if (time < self.attack_finished)
 		return FALSE;
+
 	if (!enemy_vis)
 		return FALSE;
 
@@ -127,14 +134,15 @@ float() WizardCheckAttack =
 
 	targ = self.enemy;
 
-// see if any entities are in the way of the shot
+	// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
 	traceline(spot1, spot2, FALSE, self);
 
 	if (trace_ent != targ)
-	{ // don't have a clear shot, so move to a side
+	{
+		// don't have a clear shot, so move to a side
 		if (self.attack_state != AS_STRAIGHT)
 		{
 			self.attack_state = AS_STRAIGHT;
@@ -179,10 +187,13 @@ float() WizardCheckAttack =
 };
 
 /*
-=================
+===============================================================================
+
 WizardAttackFinished
-=================
+
+===============================================================================
 */
+
 void() WizardAttackFinished =
 {
 	if (enemy_range >= RANGE_MID || !enemy_vis)
@@ -215,12 +226,12 @@ void() Wiz_FastFire =
 		self.owner.effects = self.owner.effects | EF_MUZZLEFLASH;
 
 		makevectors(self.enemy.angles);
-		dst = self.enemy.origin - 13*self.movedir;
+		dst = self.enemy.origin - 13 * self.movedir;
 
 		vec = normalize(dst - self.origin);
 		sound(self, CHAN_WEAPON, "wizard/wattack.wav", 1, ATTN_NORM);
 		launch_spike(self.origin, vec);
-		newmis.velocity = vec*600;
+		newmis.velocity = vec * 600;
 		newmis.owner = self.owner;
 		newmis.classname = "wizspike";
 		setmodel(newmis, "progs/w_spike.mdl");
@@ -243,7 +254,7 @@ void() Wiz_StartFast =
 	missile.owner = self;
 	missile.nextthink = time + 0.6;
 	setsize(missile, '0 0 0', '0 0 0');
-	setorigin(missile, self.origin + '0 0 30' + v_forward*14 + v_right*14);
+	setorigin(missile, self.origin + '0 0 30' + v_forward * 14 + v_right * 14);
 	missile.enemy = self.enemy;
 	missile.nextthink = time + 0.8;
 	missile.think = Wiz_FastFire;
@@ -253,14 +264,12 @@ void() Wiz_StartFast =
 	missile.owner = self;
 	missile.nextthink = time + 1;
 	setsize(missile, '0 0 0', '0 0 0');
-	setorigin(missile, self.origin + '0 0 30' + v_forward*14 + v_right* -14);
+	setorigin(missile, self.origin + '0 0 30' + v_forward * 14 + v_right * -14);
 	missile.enemy = self.enemy;
 	missile.nextthink = time + 0.3;
 	missile.think = Wiz_FastFire;
 	missile.movedir = VEC_ORIGIN - v_right;
 };
-
-
 
 void() Wiz_idlesound =
 {
@@ -350,9 +359,9 @@ void() wiz_pain4 = [ $pain4, wiz_run1 ] {};
 
 void() wiz_death1 = [ $death1, wiz_death2 ]
 {
-	self.velocity_x = -200 + 400*random();
-	self.velocity_y = -200 + 400*random();
-	self.velocity_z = 100 + 100*random();
+	self.velocity_x = -200 + 400 * random();
+	self.velocity_y = -200 + 400 * random();
+	self.velocity_z = 100 + 100 * random();
 	self.flags = self.flags - (self.flags & FL_ONGROUND);
 	sound(self, CHAN_VOICE, "wizard/wdeath.wav", 1, ATTN_NORM);
 };
@@ -366,7 +375,7 @@ void() wiz_death8 = [ $death8, wiz_death8 ] {};
 
 void() wiz_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -40)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -377,19 +386,20 @@ void() wiz_die =
 		return;
 	}
 
+	// regular death
 	wiz_death1();
 };
-
 
 void(entity attacker, float damage) Wiz_Pain =
 {
 	sound(self, CHAN_VOICE, "wizard/wpain.wav", 1, ATTN_NORM);
-	if (random()*70 > damage)
-		return; // didn't flinch
+
+	// didn't flinch
+	if (random() * 70 > damage)
+		return;
 
 	wiz_pain1();
 };
-
 
 void() Wiz_Missile =
 {
@@ -409,7 +419,8 @@ void() monster_wizard =
 	precache_model("progs/h_wizard.mdl");
 	precache_model("progs/w_spike.mdl");
 
-	precache_sound("wizard/hit.wav"); // used by c code
+	// used by C code
+	precache_sound("wizard/hit.wav");
 	precache_sound("wizard/wattack.wav");
 	precache_sound("wizard/wdeath.wav");
 	precache_sound("wizard/widle1.wav");

@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -23,6 +24,7 @@ DOG
 
 ==============================================================================
 */
+
 $cd /raid/quake/id1/models/dog
 $origin 0 0 24
 $base base
@@ -48,16 +50,17 @@ $frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
 
 $frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8
 
-
 void() dog_leap1;
 void() dog_run1;
 
 /*
-================
+==============================================================================
+
 dog_bite
 
-================
+==============================================================================
 */
+
 void() dog_bite =
 {
 	vector delta;
@@ -91,7 +94,7 @@ void() Dog_JumpTouch =
 	{
 		if (vlen(self.velocity) > 300)
 		{
-			ldmg = 10 + 10*random();
+			ldmg = 10 + 10 * random();
 			T_Damage(other, self, self, ldmg);
 		}
 	}
@@ -99,25 +102,27 @@ void() Dog_JumpTouch =
 	if (!checkbottom(self))
 	{
 		if (self.flags & FL_ONGROUND)
-		{ // jump randomly to not get hung up
-//dprint("popjump\n");
-	self.touch = SUB_Null;
-	self.think = dog_leap1;
-	self.nextthink = time + 0.1;
+		{
+			// jump randomly to not get hung up
+			//dprint("popjump\n");
+			self.touch = SUB_Null;
+			self.think = dog_leap1;
+			self.nextthink = time + 0.1;
 
-//			self.velocity_x = (random() - 0.5) * 600;
-//			self.velocity_y = (random() - 0.5) * 600;
-//			self.velocity_z = 200;
-//			self.flags = self.flags - FL_ONGROUND;
+			//self.velocity_x = (random() - 0.5) * 600;
+			//self.velocity_y = (random() - 0.5) * 600;
+			//self.velocity_z = 200;
+			//self.flags = self.flags - FL_ONGROUND;
 		}
-		return; // not on ground yet
+
+		// not on ground yet
+		return;
 	}
 
 	self.touch = SUB_Null;
 	self.think = dog_run1;
 	self.nextthink = time + 0.1;
 };
-
 
 void() dog_stand1 = [ $stand1, dog_stand2 ] { ai_stand(); };
 void() dog_stand2 = [ $stand2, dog_stand3 ] { ai_stand(); };
@@ -129,37 +134,37 @@ void() dog_stand7 = [ $stand7, dog_stand8 ] { ai_stand(); };
 void() dog_stand8 = [ $stand8, dog_stand9 ] { ai_stand(); };
 void() dog_stand9 = [ $stand9, dog_stand1 ] { ai_stand(); };
 
-void() dog_walk1 = [ $walk1 , dog_walk2 ]
+void() dog_walk1 = [ $walk1, dog_walk2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "dog/idle.wav", 1, ATTN_IDLE);
 	ai_walk(8);
 };
-void() dog_walk2 = [ $walk2 , dog_walk3 ] { ai_walk(8); };
-void() dog_walk3 = [ $walk3 , dog_walk4 ] { ai_walk(8); };
-void() dog_walk4 = [ $walk4 , dog_walk5 ] { ai_walk(8); };
-void() dog_walk5 = [ $walk5 , dog_walk6 ] { ai_walk(8); };
-void() dog_walk6 = [ $walk6 , dog_walk7 ] { ai_walk(8); };
-void() dog_walk7 = [ $walk7 , dog_walk8 ] { ai_walk(8); };
-void() dog_walk8 = [ $walk8 , dog_walk1 ] { ai_walk(8); };
+void() dog_walk2 = [ $walk2, dog_walk3 ] { ai_walk(8); };
+void() dog_walk3 = [ $walk3, dog_walk4 ] { ai_walk(8); };
+void() dog_walk4 = [ $walk4, dog_walk5 ] { ai_walk(8); };
+void() dog_walk5 = [ $walk5, dog_walk6 ] { ai_walk(8); };
+void() dog_walk6 = [ $walk6, dog_walk7 ] { ai_walk(8); };
+void() dog_walk7 = [ $walk7, dog_walk8 ] { ai_walk(8); };
+void() dog_walk8 = [ $walk8, dog_walk1 ] { ai_walk(8); };
 
-void() dog_run1 = [ $run1  , dog_run2 ]
+void() dog_run1 = [ $run1, dog_run2 ]
 {
 	if (random() < 0.2)
 		sound(self, CHAN_VOICE, "dog/idle.wav", 1, ATTN_IDLE);
 	ai_run(16);
 };
-void() dog_run2 = [ $run2  , dog_run3 ] { ai_run(32); };
-void() dog_run3 = [ $run3  , dog_run4 ] { ai_run(32); };
-void() dog_run4 = [ $run4  , dog_run5 ] { ai_run(20); };
-void() dog_run5 = [ $run5  , dog_run6 ] { ai_run(64); };
-void() dog_run6 = [ $run6  , dog_run7 ] { ai_run(32); };
-void() dog_run7 = [ $run7  , dog_run8 ] { ai_run(16); };
-void() dog_run8 = [ $run8  , dog_run9 ] { ai_run(32); };
-void() dog_run9 = [ $run9  , dog_run10 ] { ai_run(32); };
-void() dog_run10 = [ $run10  , dog_run11 ] { ai_run(20); };
-void() dog_run11 = [ $run11  , dog_run12 ] { ai_run(64); };
-void() dog_run12 = [ $run12  , dog_run1 ] { ai_run(32); };
+void() dog_run2 = [ $run2, dog_run3 ] { ai_run(32); };
+void() dog_run3 = [ $run3, dog_run4 ] { ai_run(32); };
+void() dog_run4 = [ $run4, dog_run5 ] { ai_run(20); };
+void() dog_run5 = [ $run5, dog_run6 ] { ai_run(64); };
+void() dog_run6 = [ $run6, dog_run7 ] { ai_run(32); };
+void() dog_run7 = [ $run7, dog_run8 ] { ai_run(16); };
+void() dog_run8 = [ $run8, dog_run9 ] { ai_run(32); };
+void() dog_run9 = [ $run9, dog_run10 ] { ai_run(32); };
+void() dog_run10 = [ $run10, dog_run11 ] { ai_run(20); };
+void() dog_run11 = [ $run11, dog_run12 ] { ai_run(64); };
+void() dog_run12 = [ $run12, dog_run1 ] { ai_run(32); };
 
 void() dog_atta1 = [ $attack1, dog_atta2 ] { ai_charge(10); };
 void() dog_atta2 = [ $attack2, dog_atta3 ] { ai_charge(10); };
@@ -186,7 +191,6 @@ void() dog_leap2 = [ $leap2, dog_leap3 ]
 	if (self.flags & FL_ONGROUND)
 		self.flags = self.flags - FL_ONGROUND;
 };
-
 void() dog_leap3 = [ $leap3, dog_leap4 ] {};
 void() dog_leap4 = [ $leap4, dog_leap5 ] {};
 void() dog_leap5 = [ $leap5, dog_leap6 ] {};
@@ -195,29 +199,29 @@ void() dog_leap7 = [ $leap7, dog_leap8 ] {};
 void() dog_leap8 = [ $leap8, dog_leap9 ] {};
 void() dog_leap9 = [ $leap9, dog_leap9 ] {};
 
-void() dog_pain1 = [ $pain1 , dog_pain2 ] {};
-void() dog_pain2 = [ $pain2 , dog_pain3 ] {};
-void() dog_pain3 = [ $pain3 , dog_pain4 ] {};
-void() dog_pain4 = [ $pain4 , dog_pain5 ] {};
-void() dog_pain5 = [ $pain5 , dog_pain6 ] {};
-void() dog_pain6 = [ $pain6 , dog_run1 ] {};
+void() dog_pain1 = [ $pain1, dog_pain2 ] {};
+void() dog_pain2 = [ $pain2, dog_pain3 ] {};
+void() dog_pain3 = [ $pain3, dog_pain4 ] {};
+void() dog_pain4 = [ $pain4, dog_pain5 ] {};
+void() dog_pain5 = [ $pain5, dog_pain6 ] {};
+void() dog_pain6 = [ $pain6, dog_run1 ] {};
 
-void() dog_painb1 = [ $painb1 , dog_painb2 ] {};
-void() dog_painb2 = [ $painb2 , dog_painb3 ] {};
-void() dog_painb3 = [ $painb3 , dog_painb4 ] { ai_pain(4); };
-void() dog_painb4 = [ $painb4 , dog_painb5 ] { ai_pain(12); };
-void() dog_painb5 = [ $painb5 , dog_painb6 ] { ai_pain(12); };
-void() dog_painb6 = [ $painb6 , dog_painb7 ] { ai_pain(2); };
-void() dog_painb7 = [ $painb7 , dog_painb8 ] {};
-void() dog_painb8 = [ $painb8 , dog_painb9 ] { ai_pain(4); };
-void() dog_painb9 = [ $painb9 , dog_painb10 ] {};
-void() dog_painb10 = [ $painb10 , dog_painb11 ] { ai_pain(10); };
-void() dog_painb11 = [ $painb11 , dog_painb12 ] {};
-void() dog_painb12 = [ $painb12 , dog_painb13 ] {};
-void() dog_painb13 = [ $painb13 , dog_painb14 ] {};
-void() dog_painb14 = [ $painb14 , dog_painb15 ] {};
-void() dog_painb15 = [ $painb15 , dog_painb16 ] {};
-void() dog_painb16 = [ $painb16 , dog_run1 ] {};
+void() dog_painb1 = [ $painb1, dog_painb2 ] {};
+void() dog_painb2 = [ $painb2, dog_painb3 ] {};
+void() dog_painb3 = [ $painb3, dog_painb4 ] { ai_pain(4); };
+void() dog_painb4 = [ $painb4, dog_painb5 ] { ai_pain(12); };
+void() dog_painb5 = [ $painb5, dog_painb6 ] { ai_pain(12); };
+void() dog_painb6 = [ $painb6, dog_painb7 ] { ai_pain(2); };
+void() dog_painb7 = [ $painb7, dog_painb8 ] {};
+void() dog_painb8 = [ $painb8, dog_painb9 ] { ai_pain(4); };
+void() dog_painb9 = [ $painb9, dog_painb10 ] {};
+void() dog_painb10 = [ $painb10, dog_painb11 ] { ai_pain(10); };
+void() dog_painb11 = [ $painb11, dog_painb12 ] {};
+void() dog_painb12 = [ $painb12, dog_painb13 ] {};
+void() dog_painb13 = [ $painb13, dog_painb14 ] {};
+void() dog_painb14 = [ $painb14, dog_painb15 ] {};
+void() dog_painb15 = [ $painb15, dog_painb16 ] {};
+void() dog_painb16 = [ $painb16, dog_run1 ] {};
 
 void(entity attacker, float damage) dog_pain =
 {
@@ -249,10 +253,9 @@ void() dog_dieb7 = [ $deathb7, dog_dieb8 ] {};
 void() dog_dieb8 = [ $deathb8, dog_dieb9 ] {};
 void() dog_dieb9 = [ $deathb9, dog_dieb9 ] {};
 
-
 void() dog_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -35)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -263,7 +266,7 @@ void() dog_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	sound(self, CHAN_VOICE, "dog/ddeath.wav", 1, ATTN_NORM);
 	self.solid = SOLID_NOT;
 
@@ -273,19 +276,21 @@ void() dog_die =
 		dog_dieb1();
 };
 
-//============================================================================
-
 /*
-==============
+==============================================================================
+
 CheckDogMelee
 
 Returns TRUE if a melee attack would hit right now
-==============
+
+==============================================================================
 */
+
 float() CheckDogMelee =
 {
 	if (enemy_range == RANGE_MELEE)
-	{ // FIXME: check canreach
+	{
+		// FIXME: check canreach
 		self.attack_state = AS_MELEE;
 		return TRUE;
 	}
@@ -293,22 +298,22 @@ float() CheckDogMelee =
 };
 
 /*
-==============
+==============================================================================
+
 CheckDogJump
 
-==============
+==============================================================================
 */
+
 float() CheckDogJump =
 {
 	vector dist;
 	float d;
 
-	if (self.origin_z + self.mins_z > self.enemy.origin_z + self.enemy.mins_z
-	+ 0.75 * self.enemy.size_z)
+	if (self.origin_z + self.mins_z > self.enemy.origin_z + self.enemy.mins_z + 0.75 * self.enemy.size_z)
 		return FALSE;
 
-	if (self.origin_z + self.maxs_z < self.enemy.origin_z + self.enemy.mins_z
-	+ 0.25 * self.enemy.size_z)
+	if (self.origin_z + self.maxs_z < self.enemy.origin_z + self.enemy.mins_z + 0.25 * self.enemy.size_z)
 		return FALSE;
 
 	dist = self.enemy.origin - self.origin;
@@ -343,11 +348,7 @@ float() DogCheckAttack =
 	return FALSE;
 };
 
-
-//===========================================================================
-
 /*QUAKED monster_dog (1 0 0) (-32 -32 -24) (32 32 40) Ambush
-
 */
 void() monster_dog =
 {

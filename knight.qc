@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -93,7 +94,6 @@ void() knight_walk12 = [ $walk12, knight_walk13 ] { ai_walk(3); };
 void() knight_walk13 = [ $walk13, knight_walk14 ] { ai_walk(4); };
 void() knight_walk14 = [ $walk14, knight_walk1 ] { ai_walk(3); };
 
-
 void() knight_run1 = [ $runb1, knight_run2 ]
 {
 	if (random() < 0.2)
@@ -107,7 +107,6 @@ void() knight_run5 = [ $runb5, knight_run6 ] { ai_run(16); };
 void() knight_run6 = [ $runb6, knight_run7 ] { ai_run(20); };
 void() knight_run7 = [ $runb7, knight_run8 ] { ai_run(14); };
 void() knight_run8 = [ $runb8, knight_run1 ] { ai_run(6); };
-
 
 void() knight_runatk1 = [ $runattack1, knight_runatk2 ]
 {
@@ -142,12 +141,9 @@ void() knight_atk7 = [ $attackb7, knight_atk8 ] { ai_charge(1); ai_melee(); };
 void() knight_atk8 = [ $attackb8, knight_atk9 ] { ai_charge(3); ai_melee(); };
 void() knight_atk9 = [ $attackb9, knight_atk10 ] { ai_charge(1); };
 void() knight_atk10 = [ $attackb10, knight_run1 ] { ai_charge(5); };
-
 //void() knight_atk9 = [ $attack9, knight_atk10 ] {};
 //void() knight_atk10 = [ $attack10, knight_atk11 ] {};
 //void() knight_atk11 = [ $attack11, knight_run1 ] {};
-
-//===========================================================================
 
 void() knight_pain1 = [ $pain1, knight_pain2 ] {};
 void() knight_pain2 = [ $pain2, knight_pain3 ] {};
@@ -188,22 +184,16 @@ void(entity attacker, float damage) knight_pain =
 
 };
 
-//===========================================================================
-
 void() knight_bow1 = [ $kneel1, knight_bow2 ] { ai_turn(); };
 void() knight_bow2 = [ $kneel2, knight_bow3 ] { ai_turn(); };
 void() knight_bow3 = [ $kneel3, knight_bow4 ] { ai_turn(); };
 void() knight_bow4 = [ $kneel4, knight_bow5 ] { ai_turn(); };
-
 void() knight_bow5 = [ $kneel5, knight_bow5 ] { ai_turn(); };
-
 void() knight_bow6 = [ $kneel4, knight_bow7 ] { ai_turn(); };
 void() knight_bow7 = [ $kneel3, knight_bow8 ] { ai_turn(); };
 void() knight_bow8 = [ $kneel2, knight_bow9 ] { ai_turn(); };
 void() knight_bow9 = [ $kneel1, knight_bow10 ] { ai_turn(); };
 void() knight_bow10 = [ $walk1, knight_walk1 ] { ai_turn(); };
-
-
 
 void() knight_die1 = [ $death1, knight_die2 ] {};
 void() knight_die2 = [ $death2, knight_die3 ] {};
@@ -215,7 +205,6 @@ void() knight_die7 = [ $death7, knight_die8 ] {};
 void() knight_die8 = [ $death8, knight_die9 ] {};
 void() knight_die9 = [ $death9, knight_die10 ] {};
 void() knight_die10 = [ $death10, knight_die10 ] {};
-
 
 void() knight_dieb1 = [ $deathb1, knight_dieb2 ] {};
 void() knight_dieb2 = [ $deathb2, knight_dieb3 ] {};
@@ -229,10 +218,9 @@ void() knight_dieb9 = [ $deathb9, knight_dieb10 ] {};
 void() knight_dieb10 = [ $deathb10, knight_dieb11 ] {};
 void() knight_dieb11 = [ $deathb11, knight_dieb11 ] {};
 
-
 void() knight_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -40)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -243,14 +231,13 @@ void() knight_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	sound(self, CHAN_VOICE, "knight/kdeath.wav", 1, ATTN_NORM);
 	if (random() < 0.5)
 		knight_die1();
 	else
 		knight_dieb1();
 };
-
 
 /*QUAKED monster_knight (1 0 0) (-16 -16 -24) (16 16 40) Ambush
 */

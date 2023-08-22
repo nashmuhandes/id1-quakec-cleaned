@@ -16,10 +16,11 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
-SOLDIER / PLAYER
+SOLDIER
 
 ==============================================================================
 */
@@ -57,7 +58,9 @@ $frame prowl_17 prowl_18 prowl_19 prowl_20 prowl_21 prowl_22 prowl_23 prowl_24
 
 /*
 ==============================================================================
+
 SOLDIER CODE
+
 ==============================================================================
 */
 
@@ -197,7 +200,6 @@ void(entity attacker, float damage) army_pain =
 	}
 };
 
-
 void() army_fire =
 {
 	vector dir;
@@ -207,16 +209,14 @@ void() army_fire =
 
 	sound(self, CHAN_WEAPON, "soldier/sattck1.wav", 1, ATTN_NORM);
 
-// fire somewhat behind the player, so a dodging player is harder to hit
+	// fire somewhat behind the player, so a dodging player is harder to hit
 	en = self.enemy;
 
-	dir = en.origin - en.velocity*0.2;
+	dir = en.origin - en.velocity * 0.2;
 	dir = normalize(dir - self.origin);
 
 	FireBullets(4, dir, '0.1 0.1 0');
 };
-
-
 
 void() army_die1 = [ $death1, army_die2 ] {};
 void() army_die2 = [ $death2, army_die3 ] {};
@@ -252,10 +252,9 @@ void() army_cdie9 = [ $deathc9, army_cdie10 ] {};
 void() army_cdie10 = [ $deathc10, army_cdie11 ] {};
 void() army_cdie11 = [ $deathc11, army_cdie11 ] {};
 
-
 void() army_die =
 {
-// check for gib
+	// check for gib
 	if (self.health < -35)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -266,14 +265,13 @@ void() army_die =
 		return;
 	}
 
-// regular death
+	// regular death
 	sound(self, CHAN_VOICE, "soldier/death1.wav", 1, ATTN_NORM);
 	if (random() < 0.5)
 		army_die1();
 	else
 		army_cdie1();
 };
-
 
 /*QUAKED monster_army (1 0 0) (-16 -16 -24) (16 16 40) Ambush
 */
@@ -297,8 +295,8 @@ void() monster_army =
 	precache_sound("soldier/sattck1.wav");
 	precache_sound("soldier/sight1.wav");
 
-	precache_sound("player/udeath.wav"); // gib death
-
+	// gib death
+	precache_sound("player/udeath.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;

@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 /*
 ==============================================================================
 
@@ -23,6 +24,7 @@ BOSS-ONE
 
 ==============================================================================
 */
+
 $cd /raid/quake/id1/models/boss1
 $origin 0 0 -15
 $base base
@@ -52,13 +54,12 @@ $frame shockb1 shockb2 shockb3 shockb4 shockb5 shockb6
 $frame shockc1 shockc2 shockc3 shockc4 shockc5 shockc6 shockc7 shockc8
 $frame shockc9 shockc10
 
-
 void(vector p) boss_missile;
 
 void() boss_face =
 {
 
-// go for another player if multi player
+	// go for another player if multi player
 	if (self.enemy.health <= 0 || random() < 0.02)
 	{
 		self.enemy = find(self.enemy, classname, "player");
@@ -86,10 +87,7 @@ void() boss_rise15 = [ $rise15, boss_rise16 ] {};
 void() boss_rise16 = [ $rise16, boss_rise17 ] {};
 void() boss_rise17 = [ $rise17, boss_missile1 ] {};
 
-void() boss_idle1 = [ $walk1, boss_idle2 ]
-{
-// look for other players
-};
+void() boss_idle1 = [ $walk1, boss_idle2 ] {};
 void() boss_idle2 = [ $walk2, boss_idle3 ] { boss_face(); };
 void() boss_idle3 = [ $walk3, boss_idle4 ] { boss_face(); };
 void() boss_idle4 = [ $walk4, boss_idle5 ] { boss_face(); };
@@ -195,11 +193,11 @@ void() boss_death9 = [ $death9, boss_death10 ]
 	WriteCoord(MSG_BROADCAST, self.origin_y);
 	WriteCoord(MSG_BROADCAST, self.origin_z);
 };
-
 void() boss_death10 = [ $death9, boss_death10 ]
 {
 	killed_monsters = killed_monsters + 1;
-	WriteByte(MSG_ALL, SVC_KILLEDMONSTER); // FIXME: reliable broadcast
+	// FIXME: reliable broadcast
+	WriteByte(MSG_ALL, SVC_KILLEDMONSTER);
 	SUB_UseTargets();
 	remove(self);
 };
@@ -213,9 +211,9 @@ void(vector p) boss_missile =
 	offang = vectoangles(self.enemy.origin - self.origin);
 	makevectors(offang);
 
-	org = self.origin + p_x*v_forward + p_y*v_right + p_z*'0 0 1';
+	org = self.origin + p_x * v_forward + p_y * v_right + p_z * '0 0 1';
 
-// lead the player on hard mode
+	// lead the player on hard mode
 	if (skill > 1)
 	{
 		t = vlen(self.enemy.origin - org) / 300;
@@ -234,11 +232,13 @@ void(vector p) boss_missile =
 	setmodel(newmis, "progs/lavaball.mdl");
 	newmis.avelocity = '200 100 300';
 	setsize(newmis, VEC_ORIGIN, VEC_ORIGIN);
-	newmis.velocity = vec*300;
-	newmis.touch = T_MissileTouch; // rocket explosion
+	newmis.velocity = vec * 300;
+
+	// rocket explosion
+	newmis.touch = T_MissileTouch;
 	sound(self, CHAN_WEAPON, "boss1/throw.wav", 1, ATTN_NORM);
 
-// check for dead enemy
+	// check for dead enemy
 	if (self.enemy.health <= 0)
 		boss_idle1();
 };
@@ -280,6 +280,7 @@ void() monster_boss =
 		remove(self);
 		return;
 	}
+
 	precache_model("progs/boss.mdl");
 	precache_model("progs/lavaball.mdl");
 
@@ -296,8 +297,6 @@ void() monster_boss =
 	self.use = boss_awake;
 };
 
-//===========================================================================
-
 entity le1, le2;
 float lightning_end;
 
@@ -306,7 +305,8 @@ void() lightning_fire =
 	vector p1, p2;
 
 	if (time >= lightning_end)
-	{ // done here, put the terminals back up
+	{
+		// done here, put the terminals back up
 		self = le1;
 		door_go_down();
 		self = le2;
@@ -321,7 +321,7 @@ void() lightning_fire =
 	p2_z = le2.absmin_z - 16;
 
 	// compensate for length of bolt
-	p2 = p2 - normalize(p2-p1)*100;
+	p2 = p2 - normalize(p2 - p1) * 100;
 
 	self.nextthink = time + 0.1;
 	self.think = lightning_fire;
@@ -342,23 +342,23 @@ void() lightning_use =
 	if (lightning_end >= time + 1)
 		return;
 
-	le1 = find( world, target, "lightning");
-	le2 = find( le1, target, "lightning");
+	le1 = find(world, target, "lightning");
+	le2 = find(le1, target, "lightning");
 	if (!le1 || !le2)
 	{
 		dprint("missing lightning targets\n");
 		return;
 	}
 
-	if ((le1.state != STATE_TOP && le1.state != STATE_BOTTOM)
-		|| (le2.state != STATE_TOP && le2.state != STATE_BOTTOM)
-		|| (le1.state != le2.state))
+	if ((le1.state != STATE_TOP && le1.state != STATE_BOTTOM) ||
+		(le2.state != STATE_TOP && le2.state != STATE_BOTTOM) ||
+		(le1.state != le2.state))
 	{
-//		dprint("not aligned\n");
+		//dprint("not aligned\n");
 		return;
 	}
 
-// don't let the electrodes go back up until the bolt is done
+	// don't let the electrodes go back up until the bolt is done
 	le1.nextthink = -1;
 	le2.nextthink = -1;
 	lightning_end = time + 1;
@@ -366,7 +366,7 @@ void() lightning_use =
 	sound(self, CHAN_VOICE, "misc/power.wav", 1, ATTN_NORM);
 	lightning_fire();
 
-// advance the boss pain if down
+	// advance the boss pain if down
 	self = find(world, classname, "monster_boss");
 	if (!self)
 		return;
@@ -384,7 +384,6 @@ void() lightning_use =
 	}
 };
 
-
 /*QUAKED event_lightning (0 1 1) (-16 -16 -16) (16 16 16)
 Just for boss level.
 */
@@ -392,5 +391,3 @@ void() event_lightning =
 {
 	self.use = lightning_use;
 };
-
-

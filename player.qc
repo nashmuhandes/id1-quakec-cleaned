@@ -17,8 +17,6 @@
     See file, 'COPYING', for details.
 */
 
-void() bubble_bob;
-
 /*
 ==============================================================================
 
@@ -32,34 +30,24 @@ $origin 0 -6 24
 $base base
 $skin skin
 
-//
 // running
-//
 $frame axrun1 axrun2 axrun3 axrun4 axrun5 axrun6
 
 $frame rockrun1 rockrun2 rockrun3 rockrun4 rockrun5 rockrun6
 
-//
 // standing
-//
 $frame stand1 stand2 stand3 stand4 stand5
 
 $frame axstnd1 axstnd2 axstnd3 axstnd4 axstnd5 axstnd6
 $frame axstnd7 axstnd8 axstnd9 axstnd10 axstnd11 axstnd12
 
-
-//
 // pain
-//
 $frame axpain1 axpain2 axpain3 axpain4 axpain5 axpain6
 
 $frame pain1 pain2 pain3 pain4 pain5 pain6
 
 
-//
 // death
-//
-
 $frame axdeth1 axdeth2 axdeth3 axdeth4 axdeth5 axdeth6
 $frame axdeth7 axdeth8 axdeth9
 
@@ -78,9 +66,7 @@ $frame deathd8 deathd9
 $frame deathe1 deathe2 deathe3 deathe4 deathe5 deathe6 deathe7
 $frame deathe8 deathe9
 
-//
 // attacks
-//
 $frame nailatt1 nailatt2
 
 $frame light1 light2
@@ -97,10 +83,11 @@ $frame axattc1 axattc2 axattc3 axattc4 axattc5 axattc6
 
 $frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
 
-
 /*
 ==============================================================================
+
 PLAYER
+
 ==============================================================================
 */
 
@@ -156,7 +143,6 @@ void() player_run = [ $rockrun1, player_run ]
 	self.walkframe = self.walkframe + 1;
 };
 
-
 void() player_shot1 = [ $shotatt1, player_shot2 ]
 {
 	self.weaponframe = 1;
@@ -188,9 +174,6 @@ void() player_axed2 = [ $axattd2, player_axed3 ] { self.weaponframe = 6; };
 void() player_axed3 = [ $axattd3, player_axed4 ] { self.weaponframe = 7; W_FireAxe(); };
 void() player_axed4 = [ $axattd4, player_run ] { self.weaponframe = 8; };
 
-
-//============================================================================
-
 void() player_nail1 = [ $nailatt1, player_nail2  ]
 {
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -207,6 +190,7 @@ void() player_nail1 = [ $nailatt1, player_nail2  ]
 	W_FireSpikes(4);
 	self.attack_finished = time + 0.2;
 };
+
 void() player_nail2 = [ $nailatt2, player_nail1  ]
 {
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -224,8 +208,6 @@ void() player_nail2 = [ $nailatt2, player_nail1  ]
 	self.attack_finished = time + 0.2;
 };
 
-//============================================================================
-
 void() player_light1 = [ $light1, player_light2  ]
 {
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -242,6 +224,7 @@ void() player_light1 = [ $light1, player_light2  ]
 	W_FireLightning();
 	self.attack_finished = time + 0.2;
 };
+
 void() player_light2 = [ $light2, player_light1  ]
 {
 	self.effects = self.effects | EF_MUZZLEFLASH;
@@ -259,9 +242,6 @@ void() player_light2 = [ $light2, player_light1  ]
 	self.attack_finished = time + 0.2;
 };
 
-//============================================================================
-
-
 void() player_rocket1 = [ $rockatt1, player_rocket2  ]
 {
 	self.weaponframe = 1;
@@ -272,6 +252,7 @@ void() player_rocket3 = [ $rockatt3, player_rocket4  ] { self.weaponframe = 3; }
 void() player_rocket4 = [ $rockatt4, player_rocket5  ] { self.weaponframe = 4; };
 void() player_rocket5 = [ $rockatt5, player_rocket6  ] { self.weaponframe = 5; };
 void() player_rocket6 = [ $rockatt6, player_run  ] { self.weaponframe = 6; };
+
 void(float num_bubbles) DeathBubbles;
 
 void() PainSound =
@@ -287,7 +268,7 @@ void() PainSound =
 		return;
 	}
 
-// water pain sounds
+	// water pain sounds
 	if (self.watertype == CONTENT_WATER && self.waterlevel == 3)
 	{
 		DeathBubbles(1);
@@ -298,10 +279,10 @@ void() PainSound =
 		return;
 	}
 
-// slime pain sounds
+	// slime pain sounds
 	if (self.watertype == CONTENT_SLIME)
 	{
-// FIX ME put in some steam here
+		// FIXME put in some steam here
 		if (random() > 0.5)
 			sound(self, CHAN_VOICE, "player/lburn1.wav", 1, ATTN_NORM);
 		else
@@ -325,16 +306,15 @@ void() PainSound =
 	}
 	self.pain_finished = time + 0.5;
 
-// don't make multiple pain sounds right after each other
+	// don't make multiple pain sounds right after each other
 
-// ax pain sound
+	// ax pain sound
 	if (self.axhitme == 1)
 	{
 		self.axhitme = 0;
 		sound(self, CHAN_VOICE, "player/axhit1.wav", 1, ATTN_NORM);
 		return;
 	}
-
 
 	rs = rint((random() * 5) + 1);
 
@@ -375,8 +355,9 @@ void(entity attacker, float damage) player_pain =
 	if (self.weaponframe)
 		return;
 
+	// eyes don't have pain frames
 	if (self.invisible_finished > time)
-		return; // eyes don't have pain frames
+		return;
 
 	if (self.weapon == IT_AXE)
 		player_axpain1();
@@ -390,6 +371,8 @@ void() player_diec1;
 void() player_died1;
 void() player_diee1;
 void() player_die_ax1;
+
+void() bubble_bob;
 
 void() DeathBubblesSpawn =
 {
@@ -431,7 +414,6 @@ void(float num_bubbles) DeathBubbles =
 	return;
 };
 
-
 void() DeathSound =
 {
 	float rs;
@@ -464,7 +446,8 @@ void() DeathSound =
 void() PlayerDead =
 {
 	self.nextthink = -1;
-// allow respawn after a certain time
+
+	// allow respawn after a certain time
 	self.deadflag = DEAD_DEAD;
 };
 
@@ -478,12 +461,12 @@ vector(float dm) VelocityForDamage =
 
 	if (dm > -50)
 	{
-//		dprint("level 1\n");
+		//dprint("level 1\n");
 		v = v * 0.7;
 	}
 	else if (dm > -200)
 	{
-//		dprint("level 3\n");
+		//dprint("level 3\n");
 		v = v * 2;
 	}
 	else
@@ -503,12 +486,12 @@ void(string gibname, float dm) ThrowGib =
 	new.velocity = VelocityForDamage(dm);
 	new.movetype = MOVETYPE_BOUNCE;
 	new.solid = SOLID_NOT;
-	new.avelocity_x = random()*600;
-	new.avelocity_y = random()*600;
-	new.avelocity_z = random()*600;
+	new.avelocity_x = random() * 600;
+	new.avelocity_y = random() * 600;
+	new.avelocity_z = random() * 600;
 	new.think = SUB_Remove;
 	new.ltime = time;
-	new.nextthink = time + 10 + random()*10;
+	new.nextthink = time + 10 + random() * 10;
 	new.frame = 0;
 	new.flags = 0;
 };
@@ -528,7 +511,6 @@ void(string gibname, float dm) ThrowHead =
 	self.flags = self.flags - (self.flags & FL_ONGROUND);
 	self.avelocity = crandom() * '0 600 0';
 };
-
 
 void() GibPlayer =
 {
@@ -562,11 +544,13 @@ void() PlayerDie =
 	float i;
 
 	self.items = self.items - (self.items & IT_INVISIBILITY);
-	self.invisible_finished = 0; // don't die as eyes
+	// don't die as eyes
+	self.invisible_finished = 0;
 	self.invincible_finished = 0;
 	self.super_damage_finished = 0;
 	self.radsuit_finished = 0;
-	self.modelindex = modelindex_player; // don't use eyes
+	// don't use eyes
+	self.modelindex = modelindex_player;
 
 	if (deathmatch || coop)
 		DropBackpack();
@@ -578,7 +562,7 @@ void() PlayerDie =
 	self.flags = self.flags - (self.flags & FL_ONGROUND);
 	self.movetype = MOVETYPE_TOSS;
 	if (self.velocity_z < 10)
-		self.velocity_z = self.velocity_z + random()*300;
+		self.velocity_z = self.velocity_z + random() * 300;
 
 	if (self.health < -40)
 	{
@@ -599,7 +583,7 @@ void() PlayerDie =
 
 	i = cvar("temp1");
 	if (!i)
-		i = 1 + floor(random()*6);
+		i = 1 + floor(random() * 6);
 
 	if (i == 1)
 		player_diea1();
@@ -614,17 +598,19 @@ void() PlayerDie =
 
 };
 
+// used by kill command and diconnect command
 void() set_suicide_frame =
-{ // used by klill command and diconnect command
+{
+	// already gibbed
 	if (self.model != "progs/player.mdl")
-		return; // allready gibbed
+		return;
+
 	self.frame = $deatha11;
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_TOSS;
 	self.deadflag = DEAD_DEAD;
 	self.nextthink = -1;
 };
-
 
 void() player_diea1 = [ $deatha1, player_diea2 ] {};
 void() player_diea2 = [ $deatha2, player_diea3 ] {};

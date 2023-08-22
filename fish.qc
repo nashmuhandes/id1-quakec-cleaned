@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 $cd /raid/quake/id1/models/fish
 $origin 0 0 24
 $base base
@@ -96,8 +97,9 @@ void() fish_melee =
 	vector delta;
 	float ldmg;
 
+	// removed before stroke
 	if (!self.enemy)
-		return; // removed before stroke
+		return;
 
 	delta = self.enemy.origin - self.origin;
 
@@ -165,12 +167,9 @@ void() f_pain9  = [ $pain9, f_run1 ] { ai_pain(6); };
 
 void(entity attacker, float damage) fish_pain =
 {
-
-// fish allways do pain frames
+	// fish always do pain frames
 	f_pain1();
 };
-
-
 
 /*QUAKED monster_fish (1 0 0) (-16 -16 -24) (16 16 24) Ambush
 */
@@ -181,11 +180,11 @@ void() monster_fish =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/fish.mdl");
+	precache_model2("progs/fish.mdl");
 
-	precache_sound2 ("fish/death.wav");
-	precache_sound2 ("fish/bite.wav");
-	precache_sound2 ("fish/idle.wav");
+	precache_sound2("fish/death.wav");
+	precache_sound2("fish/bite.wav");
+	precache_sound2("fish/idle.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -204,4 +203,3 @@ void() monster_fish =
 
 	swimmonster_start();
 };
-

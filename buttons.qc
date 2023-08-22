@@ -16,6 +16,7 @@
 
     See file, 'COPYING', for details.
 */
+
 // button and multiple button
 
 void() button_wait;
@@ -28,7 +29,8 @@ void() button_wait =
 	self.think = button_return;
 	activator = self.enemy;
 	SUB_UseTargets();
-	self.frame = 1; // use alternate textures
+	// use alternate textures
+	self.frame = 1;
 };
 
 void() button_done =
@@ -40,17 +42,18 @@ void() button_return =
 {
 	self.state = STATE_DOWN;
 	SUB_CalcMove(self.pos1, self.speed, button_done);
-	self.frame = 0; // use normal textures
+	// use normal textures
+	self.frame = 0;
+	// can be shot again
 	if (self.health)
-		self.takedamage = DAMAGE_YES; // can be shot again
+		self.takedamage = DAMAGE_YES;
 };
 
 
 void() button_blocked =
 {
-	// do nothing, just don't ome all the way back out
+	// do nothing, just don't come all the way back out
 };
-
 
 void() button_fire =
 {
@@ -62,7 +65,6 @@ void() button_fire =
 	self.state = STATE_UP;
 	SUB_CalcMove(self.pos2, self.speed, button_wait);
 };
-
 
 void() button_use =
 {
@@ -82,10 +84,10 @@ void() button_killed =
 {
 	self.enemy = damage_attacker;
 	self.health = self.max_health;
-	self.takedamage = DAMAGE_NO; // wil be reset upon return
+	// will be reset upon return
+	self.takedamage = DAMAGE_NO;
 	button_fire();
 };
-
 
 /*QUAKED func_button (0 .5 .8) ?
 When a button is touched, it moves some distance in the direction of it's angle, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
@@ -153,6 +155,5 @@ void() func_button =
 	self.state = STATE_BOTTOM;
 
 	self.pos1 = self.origin;
-	self.pos2 = self.pos1 + self.movedir*(fabs(self.movedir*self.size) - self.lip);
+	self.pos2 = self.pos1 + self.movedir * (fabs(self.movedir * self.size) - self.lip);
 };
-

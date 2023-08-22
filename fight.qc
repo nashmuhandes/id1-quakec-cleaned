@@ -18,12 +18,14 @@
 */
 
 /*
+==============================================================================
 
 A monster is in fight mode if it thinks it can effectively attack its
 enemy.
 
 When it decides it can't attack, it goes into hunt mode.
 
+==============================================================================
 */
 
 float(float v) anglemod;
@@ -44,34 +46,33 @@ void(vector dest) ChooseTurn;
 
 void() ai_face;
 
-
 float enemy_vis, enemy_infront, enemy_range;
 float enemy_yaw;
-
 
 void() knight_attack =
 {
 	float len;
 
-// decide if now is a good swing time
-	len = vlen(self.enemy.origin+self.enemy.view_ofs - (self.origin+self.view_ofs));
+	// decide if now is a good swing time
+	len = vlen(self.enemy.origin + self.enemy.view_ofs - (self.origin + self.view_ofs));
 
-	if (len<80)
+	if (len < 80)
 		knight_atk1();
 	else
 		knight_runatk1();
 };
 
-//=============================================================================
-
 /*
-===========
+==============================================================================
+
 CheckAttack
 
 The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
-============
+
+==============================================================================
 */
+
 float() CheckAttack =
 {
 	vector spot1, spot2;
@@ -80,20 +81,23 @@ float() CheckAttack =
 
 	targ = self.enemy;
 
-// see if any entities are in the way of the shot
+	// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
 	traceline(spot1, spot2, FALSE, self);
 
+	// don't have a clear shot
 	if (trace_ent != targ)
-		return FALSE; // don't have a clear shot
+		return FALSE;
 
+	// sight line crossed contents
 	if (trace_inopen && trace_inwater)
-		return FALSE; // sight line crossed contents
+		return FALSE;
 
 	if (enemy_range == RANGE_MELEE)
-	{ // melee attack
+	{
+		// melee attack
 		if (self.th_melee)
 		{
 			if (self.classname == "monster_knight")
@@ -104,7 +108,7 @@ float() CheckAttack =
 		}
 	}
 
-// missile attack
+	// missile attack
 	if (!self.th_missile)
 		return FALSE;
 
@@ -139,7 +143,7 @@ float() CheckAttack =
 	if (random() < chance)
 	{
 		self.th_missile();
-		SUB_AttackFinished(2*random());
+		SUB_AttackFinished(2 * random());
 		return TRUE;
 	}
 
@@ -148,12 +152,15 @@ float() CheckAttack =
 
 
 /*
-=============
+==============================================================================
+
 ai_face
 
 Stay facing the enemy
-=============
+
+==============================================================================
 */
+
 void() ai_face =
 {
 	self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
@@ -161,12 +168,15 @@ void() ai_face =
 };
 
 /*
-=============
+==============================================================================
+
 ai_charge
 
 The monster is in a melee attack, so get as close as possible to .enemy
-=============
+
+==============================================================================
 */
+
 float(entity targ) visible;
 float(entity targ) infront;
 float(entity targ) range;
@@ -174,7 +184,8 @@ float(entity targ) range;
 void(float d) ai_charge =
 {
 	ai_face();
-	movetogoal(d); // done in C code...
+	// done in C code...
+	movetogoal(d);
 };
 
 void() ai_charge_side =
@@ -182,13 +193,12 @@ void() ai_charge_side =
 	vector dtemp;
 	float heading;
 
-// aim to the left of the enemy for a flyby
-
+	// aim to the left of the enemy for a flyby
 	self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
 	ChangeYaw();
 
 	makevectors(self.angles);
-	dtemp = self.enemy.origin - 30*v_right;
+	dtemp = self.enemy.origin - 30 * v_right;
 	heading = vectoyaw(dtemp - self.origin);
 
 	walkmove(heading, 20);
@@ -196,18 +206,21 @@ void() ai_charge_side =
 
 
 /*
-=============
+==============================================================================
+
 ai_melee
 
-=============
+==============================================================================
 */
+
 void() ai_melee =
 {
 	vector delta;
 	float ldmg;
 
+	// removed before stroke
 	if (!self.enemy)
-		return; // removed before stroke
+		return;
 
 	delta = self.enemy.origin - self.origin;
 
@@ -224,8 +237,9 @@ void() ai_melee_side =
 	vector delta;
 	float ldmg;
 
+	// removed before stroke
 	if (!self.enemy)
-		return; // removed before stroke
+		return;
 
 	ai_charge_side();
 
@@ -240,16 +254,17 @@ void() ai_melee_side =
 };
 
 
-//=============================================================================
-
 /*
-===========
+==============================================================================
+
 SoldierCheckAttack
 
 The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
-============
+
+==============================================================================
 */
+
 float() SoldierCheckAttack =
 {
 	vector spot1, spot2;
@@ -258,20 +273,22 @@ float() SoldierCheckAttack =
 
 	targ = self.enemy;
 
-// see if any entities are in the way of the shot
+	// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
 	traceline(spot1, spot2, FALSE, self);
 
+	// sight line crossed contents
 	if (trace_inopen && trace_inwater)
-		return FALSE; // sight line crossed contents
+		return FALSE;
 
+	// don't have a clear shot
 	if (trace_ent != targ)
-		return FALSE; // don't have a clear shot
+		return FALSE;
 
 
-// missile attack
+	// missile attack
 	if (time < self.attack_finished)
 		return FALSE;
 
@@ -299,16 +316,19 @@ float() SoldierCheckAttack =
 
 	return FALSE;
 };
-//=============================================================================
+
 
 /*
-===========
+==============================================================================
+
 ShamCheckAttack
 
 The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
-============
+
+==============================================================================
 */
+
 float() ShamCheckAttack =
 {
 	vector spot1, spot2;
@@ -331,7 +351,7 @@ float() ShamCheckAttack =
 
 	targ = self.enemy;
 
-// see if any entities are in the way of the shot
+	// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
@@ -340,33 +360,36 @@ float() ShamCheckAttack =
 
 	traceline(spot1, spot2, FALSE, self);
 
+	// sight line crossed contents
 	if (trace_inopen && trace_inwater)
-		return FALSE; // sight line crossed contents
+		return FALSE;
 
+	// don't have a clear shot
 	if (trace_ent != targ)
 	{
-		return FALSE; // don't have a clear shot
+		return FALSE;
 	}
 
-// missile attack
+	// missile attack
 	if (enemy_range == RANGE_FAR)
 		return FALSE;
 
 	self.attack_state = AS_MISSILE;
-	SUB_AttackFinished(2 + 2*random());
+	SUB_AttackFinished(2 + 2 * random());
 	return TRUE;
 };
 
-//============================================================================
-
 /*
-===========
+==============================================================================
+
 OgreCheckAttack
 
 The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
-============
+
+==============================================================================
 */
+
 float() OgreCheckAttack =
 {
 	vector spot1, spot2;
@@ -390,21 +413,23 @@ float() OgreCheckAttack =
 
 	targ = self.enemy;
 
-// see if any entities are in the way of the shot
+	// see if any entities are in the way of the shot
 	spot1 = self.origin + self.view_ofs;
 	spot2 = targ.origin + targ.view_ofs;
 
 	traceline(spot1, spot2, FALSE, self);
 
+	// sight line crossed contents
 	if (trace_inopen && trace_inwater)
-		return FALSE; // sight line crossed contents
+		return FALSE;
 
+	// don't have a clear shot
 	if (trace_ent != targ)
 	{
-		return FALSE; // don't have a clear shot
+		return FALSE;
 	}
 
-// missile attack
+	// missile attack
 	if (time < self.attack_finished)
 		return FALSE;
 
@@ -419,7 +444,6 @@ float() OgreCheckAttack =
 		chance = 0;
 
 	self.attack_state = AS_MISSILE;
-	SUB_AttackFinished(1 + 2*random());
+	SUB_AttackFinished(1 + 2 * random());
 	return TRUE;
 };
-
