@@ -60,7 +60,6 @@ void() door_blocked =
 	}
 };
 
-
 void() door_hit_top =
 {
 	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
@@ -113,7 +112,6 @@ void() door_go_up =
 	SUB_UseTargets();
 };
 
-
 /*============================================================================
 
 ACTIVATION FUNCTIONS
@@ -161,7 +159,6 @@ void() door_fire =
 	self = oself;
 };
 
-
 void() door_use =
 {
 	entity oself;
@@ -175,7 +172,6 @@ void() door_use =
 	door_fire();
 	self = oself;
 };
-
 
 void() door_trigger_touch =
 {
@@ -192,7 +188,6 @@ void() door_trigger_touch =
 	door_use();
 };
 
-
 void() door_killed =
 {
 	entity oself;
@@ -205,7 +200,6 @@ void() door_killed =
 	door_use();
 	self = oself;
 };
-
 
 /*============================================================================
 
@@ -719,7 +713,6 @@ void() secret_touch =
 		sound(other, CHAN_BODY, "misc/talk.wav", 1, ATTN_NORM);
 	}
 };
-
 
 /*QUAKED func_door_secret (0 .5 .8) ? open_once 1st_left 1st_down no_shoot always_shoot
 Basic secret door. Slides back, then to the side. Angle determines direction.

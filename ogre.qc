@@ -175,7 +175,6 @@ void(float side) chainsaw =
 	}
 };
 
-
 void() ogre_stand1 = [ $stand1, ogre_stand2 ] { ai_stand(); };
 void() ogre_stand2 = [ $stand2, ogre_stand3 ] { ai_stand(); };
 void() ogre_stand3 = [ $stand3, ogre_stand4 ] { ai_stand(); };

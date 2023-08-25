@@ -146,7 +146,6 @@ float() CheckAttack =
 	return FALSE;
 };
 
-
 /*============================================================================
 
 ai_face
@@ -196,7 +195,6 @@ void() ai_charge_side =
 	walkmove(heading, 20);
 };
 
-
 /*============================================================================
 
 ai_melee
@@ -221,7 +219,6 @@ void() ai_melee =
 	T_Damage(self.enemy, self, self, ldmg);
 };
 
-
 void() ai_melee_side =
 {
 	vector delta;
@@ -242,7 +239,6 @@ void() ai_melee_side =
 	ldmg = (random() + random() + random()) * 3;
 	T_Damage(self.enemy, self, self, ldmg);
 };
-
 
 /*============================================================================
 
@@ -304,7 +300,6 @@ float() SoldierCheckAttack =
 
 	return FALSE;
 };
-
 
 /*============================================================================
 

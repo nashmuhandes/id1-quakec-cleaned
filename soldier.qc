@@ -130,7 +130,6 @@ void() army_atk7 = [ $shoot7, army_atk8 ] { ai_face(); SUB_CheckRefire(army_atk1
 void() army_atk8 = [ $shoot8, army_atk9 ] { ai_face(); };
 void() army_atk9 = [ $shoot9, army_run1 ] { ai_face(); };
 
-
 void() army_pain1 = [ $pain1, army_pain2 ] {};
 void() army_pain2 = [ $pain2, army_pain3 ] {};
 void() army_pain3 = [ $pain3, army_pain4 ] {};

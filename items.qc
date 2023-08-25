@@ -312,7 +312,6 @@ void() armor_touch =
 	SUB_UseTargets();
 };
 
-
 /*QUAKED item_armor1 (0 .5 .8) (-16 -16 0) (16 16 32)
 */
 void() item_armor1 =
@@ -588,7 +587,6 @@ void() weapon_rocketlauncher =
 	StartItem();
 };
 
-
 /*QUAKED weapon_lightning (0 .5 .8) (-16 -16 0) (16 16 32)
 */
 void() weapon_lightning =
@@ -601,7 +599,6 @@ void() weapon_lightning =
 	setsize(self, '-16 -16 0', '16 16 56');
 	StartItem();
 };
-
 
 /*============================================================================
 
@@ -772,7 +769,6 @@ void() item_rockets =
 	StartItem();
 };
 
-
 /*QUAKED item_cells (0 .5 .8) (0 0 0) (32 32 32) big
 */
 void() item_cells =
@@ -866,7 +862,6 @@ void() item_weapon =
 	setsize(self, '0 0 0', '32 32 56');
 	StartItem();
 };
-
 
 /*============================================================================
 
@@ -1025,7 +1020,6 @@ void() sigil_touch =
 	// fire all targets/killtargets
 	SUB_UseTargets();
 };
-
 
 /*QUAKED item_sigil (0 .5 .8) (-16 -16 -24) (16 16 32) E1 E2 E3 E4
 End of level sigil, pick up to end episode and return to jrstart.

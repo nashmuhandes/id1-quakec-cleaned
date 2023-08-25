@@ -138,7 +138,6 @@ void() walkmonster_start_go =
 	self.nextthink = self.nextthink + random() * 0.5;
 };
 
-
 void() walkmonster_start =
 {
 	// delay drop to floor to make sure all doors have been spawned
@@ -200,7 +199,6 @@ void() flymonster_start =
 	self.think = flymonster_start_go;
 	total_monsters = total_monsters + 1;
 };
-
 
 void() swimmonster_start_go =
 {

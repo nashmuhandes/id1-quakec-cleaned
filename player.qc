@@ -44,7 +44,6 @@ $frame axpain1 axpain2 axpain3 axpain4 axpain5 axpain6
 
 $frame pain1 pain2 pain3 pain4 pain5 pain6
 
-
 // death
 $frame axdeth1 axdeth2 axdeth3 axdeth4 axdeth5 axdeth6
 $frame axdeth7 axdeth8 axdeth9
@@ -437,7 +436,6 @@ void() DeathSound =
 	sound(self, CHAN_VOICE, self.noise, 1, ATTN_NONE);
 	return;
 };
-
 
 void() PlayerDead =
 {

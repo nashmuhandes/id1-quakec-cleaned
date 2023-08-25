@@ -144,7 +144,6 @@ entity() FindIntermission =
 	return world;
 };
 
-
 string nextmap;
 void() GotoNextMap =
 {
@@ -154,7 +153,6 @@ void() GotoNextMap =
 	else
 		changelevel(nextmap);
 };
-
 
 void() ExitIntermission =
 {
@@ -301,7 +299,6 @@ void() execute_changelevel =
 	WriteByte(MSG_ALL, SVC_INTERMISSION);
 };
 
-
 void() changelevel_touch =
 {
 	if (other.classname != "player")
@@ -381,7 +378,6 @@ void() respawn =
 		localcmd("restart\n");
 	}
 };
-
 
 /*============================================================================
 
@@ -531,7 +527,6 @@ void() PutClientInServer =
 
 	spawn_tdeath(self.origin, self);
 };
-
 
 /*============================================================================
 
@@ -716,7 +711,6 @@ void() PlayerJump =
 	self.velocity_z = self.velocity_z + 270;
 };
 
-
 /*============================================================================
 
 WaterMove
@@ -839,7 +833,6 @@ void() CheckWaterJump =
 		}
 	}
 };
-
 
 /*============================================================================
 
@@ -1051,7 +1044,6 @@ void() CheckPowerups =
 		}
 	}
 };
-
 
 /*============================================================================
 

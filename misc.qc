@@ -176,7 +176,6 @@ void() light_flame_small_white =
 	makestatic(self);
 };
 
-
 /*QUAKED misc_fireball (0 .5 .8) (-8 -8 -8) (8 8 8)
 Lava Balls
 */
@@ -215,7 +214,6 @@ void() fire_fly =
 	self.nextthink = time + (random() * 5) + 3;
 	self.think = fire_fly;
 };
-
 
 void() fire_touch =
 {
@@ -339,7 +337,6 @@ void() trap_spikeshooter =
 	else
 		precache_sound("weapons/spike2.wav");
 };
-
 
 /*QUAKED trap_shooter (0 .5 .8) (-8 -8 -8) (8 8 8) superspike laser
 Continuously fires spikes.
@@ -483,7 +480,6 @@ void() viewthing =
 	precache_model("progs/player.mdl");
 	setmodel(self, "progs/player.mdl");
 };
-
 
 /*============================================================================
 

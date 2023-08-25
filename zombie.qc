@@ -216,7 +216,6 @@ void(vector st) ZombieFireGrenade =
 	setorigin(missile, org);
 };
 
-
 void() zombie_atta1 = [ $atta1, zombie_atta2 ] { ai_face(); };
 void() zombie_atta2 = [ $atta2, zombie_atta3 ] { ai_face(); };
 void() zombie_atta3 = [ $atta3, zombie_atta4 ] { ai_face(); };
@@ -272,7 +271,6 @@ void() zombie_missile =
 	else
 		zombie_attc1();
 };
-
 
 /*============================================================================
 

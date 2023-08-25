@@ -63,7 +63,6 @@ float(entity targ, entity inflictor) CanDamage =
 	return FALSE;
 };
 
-
 /*============================================================================
 
 Killed
@@ -108,7 +107,6 @@ void(entity targ, entity attacker) Killed =
 
 	self = oself;
 };
-
 
 /*============================================================================
 

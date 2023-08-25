@@ -92,7 +92,6 @@ void(entity missile, float mspeed, float accuracy) LaunchMissile =
 	missile.think = SUB_Remove;
 };
 
-
 void() wiz_run1;
 void() wiz_side1;
 
@@ -228,7 +227,6 @@ void() Wiz_FastFire =
 
 	remove(self);
 };
-
 
 void() Wiz_StartFast =
 {

@@ -49,7 +49,6 @@ void() button_return =
 		self.takedamage = DAMAGE_YES;
 };
 
-
 void() button_blocked =
 {
 	// do nothing, just don't come all the way back out

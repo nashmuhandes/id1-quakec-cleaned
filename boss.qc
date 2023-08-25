@@ -241,7 +241,6 @@ void(vector p) boss_missile =
 		boss_idle1();
 };
 
-
 void() boss_awake =
 {
 	self.solid = SOLID_SLIDEBOX;
@@ -267,7 +266,6 @@ void() boss_awake =
 	self.yaw_speed = 20;
 	boss_rise1();
 };
-
 
 /*QUAKED monster_boss (1 0 0) (-128 -128 -24) (128 128 256)
 */

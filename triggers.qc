@@ -318,7 +318,6 @@ void(vector org) spawn_tfog =
 	WriteCoord(MSG_BROADCAST, org_z);
 };
 
-
 void() tdeath_touch =
 {
 	if (other == self.owner)
