@@ -104,7 +104,6 @@ void() OgreGrenadeTouch =
 OgreFireGrenade
 
 ============================================================================*/
-
 void() OgreFireGrenade =
 {
 	entity missile;
@@ -144,7 +143,6 @@ void() OgreFireGrenade =
 chainsaw
 
 ============================================================================*/
-
 void(float side) chainsaw =
 {
 	vector delta;

@@ -56,7 +56,6 @@ void() dog_run1;
 dog_bite
 
 ============================================================================*/
-
 void() dog_bite =
 {
 	vector delta;
@@ -279,7 +278,6 @@ CheckDogMelee
 Returns TRUE if a melee attack would hit right now
 
 ============================================================================*/
-
 float() CheckDogMelee =
 {
 	if (enemy_range == RANGE_MELEE)
@@ -296,7 +294,6 @@ float() CheckDogMelee =
 CheckDogJump
 
 ============================================================================*/
-
 float() CheckDogJump =
 {
 	vector dist;

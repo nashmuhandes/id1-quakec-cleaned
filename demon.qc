@@ -19,7 +19,7 @@
 
 /*============================================================================
 
-DEMON
+FIEND
 
 ============================================================================*/
 
@@ -235,7 +235,6 @@ CheckDemonMelee
 Returns TRUE if a melee attack would hit right now
 
 ============================================================================*/
-
 float() CheckDemonMelee =
 {
 	if (enemy_range == RANGE_MELEE)
@@ -252,7 +251,6 @@ float() CheckDemonMelee =
 CheckDemonJump
 
 ============================================================================*/
-
 float() CheckDemonJump =
 {
 	vector dist;

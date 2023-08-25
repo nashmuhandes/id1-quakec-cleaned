@@ -47,7 +47,6 @@ void() SetMovedir =
 InitTrigger
 
 ============================================================================*/
-
 void() InitTrigger =
 {
 	// trigger angles are used for one-way touches.  An angle of 0 is assumed
@@ -70,7 +69,6 @@ calculate self.velocity and self.nextthink to reach dest from
 self.origin traveling at speed
 
 ============================================================================*/
-
 void(entity ent, vector tdest, float tspeed, void() func) SUB_CalcMoveEnt =
 {
 	entity stemp;
@@ -148,7 +146,6 @@ self.angles rotating
 The calling function should make sure self.think is valid
 ===============
 */
-
 void(entity ent, vector destangle, float tspeed, void() func) SUB_CalcAngleMoveEnt =
 {
 	entity stemp;
@@ -226,7 +223,6 @@ Search for(string)targetname in all entities that
 match(string)self.target and call their .use function
 
 ==========================================================================================*/
-
 void() SUB_UseTargets =
 {
 	entity t, stemp, otemp, act;

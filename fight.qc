@@ -68,7 +68,6 @@ The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
 
 ============================================================================*/
-
 float() CheckAttack =
 {
 	vector spot1, spot2;
@@ -153,12 +152,15 @@ ai_face
 Stay facing the enemy
 
 ============================================================================*/
-
 void() ai_face =
 {
 	self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
 	ChangeYaw();
 };
+
+float(entity targ) visible;
+float(entity targ) infront;
+float(entity targ) range;
 
 /*============================================================================
 
@@ -167,11 +169,6 @@ ai_charge
 The monster is in a melee attack, so get as close as possible to .enemy
 
 ============================================================================*/
-
-float(entity targ) visible;
-float(entity targ) infront;
-float(entity targ) range;
-
 void(float d) ai_charge =
 {
 	ai_face();
@@ -200,7 +197,6 @@ void() ai_charge_side =
 ai_melee
 
 ============================================================================*/
-
 void() ai_melee =
 {
 	vector delta;
@@ -248,7 +244,6 @@ The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
 
 ============================================================================*/
-
 float() SoldierCheckAttack =
 {
 	vector spot1, spot2;
@@ -309,7 +304,6 @@ The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
 
 ============================================================================*/
-
 float() ShamCheckAttack =
 {
 	vector spot1, spot2;
@@ -368,7 +362,6 @@ The player is in view, so decide to move or launch an attack
 Returns FALSE if movement should continue
 
 ============================================================================*/
-
 float() OgreCheckAttack =
 {
 	vector spot1, spot2;

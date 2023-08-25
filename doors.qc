@@ -208,7 +208,6 @@ door_touch
 Prints messages and opens key doors
 
 ============================================================================*/
-
 void() door_touch =
 {
 	if (other.classname != "player")
@@ -323,7 +322,6 @@ float(entity e1, entity e2) EntitiesTouching =
 LinkDoors
 
 ============================================================================*/
-
 void() LinkDoors =
 {
 	entity t, starte;
@@ -697,7 +695,6 @@ secret_touch
 
 Prints messages
 ============================================================================*/
-
 void() secret_touch =
 {
 	if (other.classname != "player")

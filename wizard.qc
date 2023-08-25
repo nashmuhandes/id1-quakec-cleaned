@@ -58,7 +58,6 @@ if self.enemy maintains it's current velocity
 0.1 is moderately accurate, 0.0 is totally accurate
 
 ============================================================================*/
-
 void(entity missile, float mspeed, float accuracy) LaunchMissile =
 {
 	vector vec, move;
@@ -100,7 +99,6 @@ void() wiz_side1;
 WizardCheckAttack
 
 =============================================================================*/
-
 float() WizardCheckAttack =
 {
 	vector spot1, spot2;
@@ -182,7 +180,6 @@ float() WizardCheckAttack =
 WizardAttackFinished
 
 =============================================================================*/
-
 void() WizardAttackFinished =
 {
 	if (enemy_range >= RANGE_MID || !enemy_vis)

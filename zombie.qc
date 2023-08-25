@@ -181,7 +181,6 @@ void() ZombieGrenadeTouch =
 ZombieFireGrenade
 
 ============================================================================*/
-
 void(vector st) ZombieFireGrenade =
 {
 	entity missile;
@@ -271,12 +270,6 @@ void() zombie_missile =
 	else
 		zombie_attc1();
 };
-
-/*============================================================================
-
-PAIN
-
-============================================================================*/
 
 void() zombie_paina1 = [ $paina1, zombie_paina2 ] { sound(self, CHAN_VOICE, "zombie/z_pain.wav", 1, ATTN_NORM); };
 void() zombie_paina2 = [ $paina2, zombie_paina3 ] { ai_painforward(3); };

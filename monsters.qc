@@ -42,7 +42,6 @@ monster_use
 Using a monster makes it angry at the current activator
 
 ============================================================================*/
-
 void() monster_use =
 {
 	if (self.enemy)
@@ -70,7 +69,6 @@ When a mosnter dies, it fires all of its targets with the current
 enemy as activator.
 
 ============================================================================*/
-
 void() monster_death_use =
 {
 	// fall to ground

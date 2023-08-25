@@ -50,7 +50,6 @@ float() crandom =
 W_FireAxe
 
 ============================================================================*/
-
 void() W_FireAxe =
 {
 	vector source;
@@ -99,7 +98,6 @@ vector() wall_velocity =
 SpawnMeatSpray
 
 ============================================================================*/
-
 void(vector org, vector vel) SpawnMeatSpray =
 {
 	entity missile;
@@ -130,7 +128,6 @@ void(vector org, vector vel) SpawnMeatSpray =
 SpawnBlood
 
 ============================================================================*/
-
 void(vector org, vector vel, float damage) SpawnBlood =
 {
 	particle(org, vel * 0.1, 73, damage * 2);
@@ -141,7 +138,6 @@ void(vector org, vector vel, float damage) SpawnBlood =
 spawn_touchblood
 
 ============================================================================*/
-
 void(float damage) spawn_touchblood =
 {
 	vector vel;
@@ -155,7 +151,6 @@ void(float damage) spawn_touchblood =
 SpawnChunk
 
 ============================================================================*/
-
 void(vector org, vector vel) SpawnChunk =
 {
 	particle(org, vel * 0.02, 0, 10);
@@ -211,7 +206,6 @@ BULLETS
 TraceAttack
 
 ============================================================================*/
-
 void(float damage, vector dir) TraceAttack =
 {
 	vector vel, org;
@@ -245,7 +239,6 @@ Used by shotgun, super shotgun, and enemy soldier firing
 Go to the trouble of combining multiple pellets into a single damage call.
 
 ============================================================================*/
-
 void(float shotcount, vector dir, vector spread) FireBullets =
 {
 	vector direction;
@@ -275,7 +268,6 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 W_FireShotgun
 
 ============================================================================*/
-
 void() W_FireShotgun =
 {
 	vector dir;
@@ -294,7 +286,6 @@ void() W_FireShotgun =
 W_FireSuperShotgun
 
 ============================================================================*/
-
 void() W_FireSuperShotgun =
 {
 	vector dir;
@@ -383,7 +374,6 @@ void() T_MissileTouch =
 W_FireRocket
 
 ============================================================================*/
-
 void() W_FireRocket =
 {
 	entity missile;
@@ -427,7 +417,6 @@ LIGHTNING
 LightningDamage
 
 =============================================================================*/
-
 void(vector p1, vector p2, entity from, float damage) LightningDamage =
 {
 	entity e1, e2;
@@ -554,7 +543,6 @@ void() GrenadeTouch =
 W_FireGrenade
 
 ============================================================================*/
-
 void() W_FireGrenade =
 {
 	entity missile;
@@ -609,7 +597,6 @@ launch_spike
 
 Used for both the player and the ogre
 ============================================================================*/
-
 void(vector org, vector dir) launch_spike =
 {
 	newmis = spawn();
@@ -954,7 +941,6 @@ void() W_Attack =
 W_ChangeWeapon
 
 ============================================================================*/
-
 void() W_ChangeWeapon =
 {
 	float it, am, fl;
@@ -1037,7 +1023,6 @@ void() W_ChangeWeapon =
 CheatCommand
 
 ============================================================================*/
-
 void() CheatCommand =
 {
 	if (deathmatch || coop)
@@ -1071,7 +1056,6 @@ CycleWeaponCommand
 Go to the next weapon with ammo
 
 ============================================================================*/
-
 void() CycleWeaponCommand =
 {
 	float it, am;
@@ -1212,7 +1196,6 @@ ServerflagsCommand
 Just for development
 
 ============================================================================*/
-
 void() ServerflagsCommand =
 {
 	serverflags = serverflags * 2 + 1;
@@ -1234,7 +1217,6 @@ void() QuadCheat =
 ImpulseCommands
 
 ============================================================================*/
-
 void() ImpulseCommands =
 {
 	if (self.impulse >= 1 && self.impulse <= 8)
@@ -1262,7 +1244,6 @@ W_WeaponFrame
 Called every frame so impulse events can be handled as well as possible
 
 ============================================================================*/
-
 void() W_WeaponFrame =
 {
 	if (time < self.attack_finished)
@@ -1285,7 +1266,6 @@ SuperDamageSound
 Plays sound if needed
 
 ============================================================================*/
-
 void() SuperDamageSound =
 {
 	if (self.super_damage_finished > time)

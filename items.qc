@@ -58,7 +58,6 @@ PlaceItem
 Plants the object on the floor
 
 ============================================================================*/
-
 void() PlaceItem =
 {
 	float oldz;
@@ -89,7 +88,6 @@ StartItem
 Sets the clipping size and plants the object on the floor
 
 ============================================================================*/
-
 void() StartItem =
 {
 	// items start after other solids
@@ -106,7 +104,6 @@ Add health to an entity, limiting health to max_health
 
 =========================================================================
 */
-
 float(entity e, float healamount, float ignore) T_Heal =
 {
 	if (e.health <= 0)
@@ -390,7 +387,6 @@ Deathmatch weapon change rules for picking up a weapon
 
 .float ammo_shells, ammo_nails, ammo_rockets, ammo_cells;
 ============================================================================*/
-
 void(float old, float new) Deathmatch_Weapon =
 {
 	float or, nr;
@@ -402,14 +398,13 @@ void(float old, float new) Deathmatch_Weapon =
 		self.weapon = new;
 };
 
+float() W_BestWeapon;
+
 /*============================================================================
 
 weapon_touch
 
 ============================================================================*/
-
-float() W_BestWeapon;
-
 void() weapon_touch =
 {
 	float hadammo, best, new, old;

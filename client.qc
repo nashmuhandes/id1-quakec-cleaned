@@ -108,7 +108,6 @@ FindIntermission
 Returns the entity to view from
 
 ============================================================================*/
-
 entity() FindIntermission =
 {
 	entity spot;
@@ -250,7 +249,6 @@ IntermissionThink
 When the player presses attack or jump, change to the next level
 
 ============================================================================*/
-
 void() IntermissionThink =
 {
 	if (time < intermission_exittime)
@@ -386,7 +384,6 @@ ClientKill
 Player entered the suicide command
 
 ============================================================================*/
-
 void() ClientKill =
 {
 	bprint(self.netname);
@@ -410,7 +407,6 @@ SelectSpawnPoint
 Returns the entity to spawn at
 
 ============================================================================*/
-
 entity() SelectSpawnPoint =
 {
 	entity spot;
@@ -453,6 +449,9 @@ entity() SelectSpawnPoint =
 	return spot;
 };
 
+void() DecodeLevelParms;
+void() PlayerDie;
+
 /*============================================================================
 
 PutClientInServer
@@ -460,11 +459,6 @@ PutClientInServer
 Called each time a player is spawned
 
 ============================================================================*/
-
-void() DecodeLevelParms;
-void() PlayerDie;
-
-
 void() PutClientInServer =
 {
 	entity spot;
@@ -607,7 +601,6 @@ CheckRules
 Exit deathmatch games upon conditions
 
 ============================================================================*/
-
 void() CheckRules =
 {
 	float timelimit;
@@ -711,14 +704,13 @@ void() PlayerJump =
 	self.velocity_z = self.velocity_z + 270;
 };
 
+.float dmgtime;
+
 /*============================================================================
 
 WaterMove
 
 ============================================================================*/
-
-.float dmgtime;
-
 void() WaterMove =
 {
 	//dprint(ftos(self.waterlevel));
@@ -785,7 +777,6 @@ void() WaterMove =
 
 	if (!(self.flags & FL_INWATER))
 	{
-
 		// player enter water sound
 		if (self.watertype == CONTENT_LAVA)
 			sound(self, CHAN_BODY, "player/inlava.wav", 1, ATTN_NORM);
@@ -841,7 +832,6 @@ PlayerPreThink
 Called every frame before physics are run
 
 ============================================================================*/
-
 void() PlayerPreThink =
 {
 	if (intermission_running)
@@ -891,7 +881,6 @@ CheckPowerups
 Check for turning off powerups
 
 ============================================================================*/
-
 void() CheckPowerups =
 {
 	if (self.health <= 0)
@@ -1052,7 +1041,6 @@ PlayerPostThink
 Called every frame after physics are run
 
 ============================================================================*/
-
 void() PlayerPostThink =
 {
 	// intermission or finale
@@ -1094,7 +1082,6 @@ ClientConnect
 called when a player connects to a server
 
 ============================================================================*/
-
 void() ClientConnect =
 {
 	bprint(self.netname);
@@ -1112,7 +1099,6 @@ ClientDisconnect
 Called when a player disconnects from a server
 
 ============================================================================*/
-
 void() ClientDisconnect =
 {
 	// if the level end trigger has been activated, just return
@@ -1136,7 +1122,6 @@ ClientObituary
 Called when a player dies
 
 ============================================================================*/
-
 void(entity targ, entity attacker) ClientObituary =
 {
 	float rnum;

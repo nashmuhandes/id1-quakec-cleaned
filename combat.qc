@@ -30,7 +30,6 @@ CanDamage
 Returns true if the inflictor can directly damage the target.  Used for
 explosions and melee attacks.
 ============================================================================*/
-
 float(entity targ, entity inflictor) CanDamage =
 {
 	// bmodels need special checking because their origin is 0,0,0
@@ -68,7 +67,6 @@ float(entity targ, entity inflictor) CanDamage =
 Killed
 
 ============================================================================*/
-
 void(entity targ, entity attacker) Killed =
 {
 	entity oself;
@@ -116,7 +114,6 @@ The damage is coming from inflictor, but get mad at attacker
 This should be the only function that ever reduces health.
 
 ============================================================================*/
-
 void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
 {
 	vector dir;
@@ -228,7 +225,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage =
 T_RadiusDamage
 
 ============================================================================*/
-
 void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDamage =
 {
 	float points;
@@ -272,7 +268,6 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 T_BeamDamage
 
 ============================================================================*/
-
 void(entity attacker, float damage) T_BeamDamage =
 {
 	float points;

@@ -54,12 +54,6 @@ $frame prowl_1 prowl_2 prowl_3 prowl_4 prowl_5 prowl_6 prowl_7 prowl_8
 $frame prowl_9 prowl_10 prowl_11 prowl_12 prowl_13 prowl_14 prowl_15 prowl_16
 $frame prowl_17 prowl_18 prowl_19 prowl_20 prowl_21 prowl_22 prowl_23 prowl_24
 
-/*============================================================================
-
-SOLDIER CODE
-
-============================================================================*/
-
 void() army_fire;
 
 void() army_stand1 = [ $stand1, army_stand2 ] { ai_stand(); };
