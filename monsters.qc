@@ -129,8 +129,10 @@ void() walkmonster_start_go =
 		if (self.movetarget.classname == "path_corner")
 			self.th_walk();
 		else
+		{
 			self.pausetime = 99999999;
 			self.th_stand();
+		}
 	}
 	else
 	{
@@ -185,8 +187,10 @@ void() flymonster_start_go =
 		if (self.movetarget.classname == "path_corner")
 			self.th_walk();
 		else
+		{
 			self.pausetime = 99999999;
 			self.th_stand();
+		}
 	}
 	else
 	{
